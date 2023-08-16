@@ -13,7 +13,7 @@ static const std::string default_query_verb = "get";
 
 UrlBuilder::UrlBuilder()
     : m_base_url{ default_base_url }
-    , m_service_id{ default_service_id }
+    , m_service_id{ detail::default_service_id }
     , m_query_verb{ default_query_verb }
     , m_namespace{ "" }
     , m_collection{ "" }

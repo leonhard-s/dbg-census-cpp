@@ -10,15 +10,24 @@ namespace dbg_census {
 
 namespace urlgen {
 
+namespace detail {
+
 static const std::string default_service_id = "s:example";
 
+} // namespace detail
+
+/**
+ * @brief A builder class for generating Census REST API URLs.
+ * 
+ * @note This class is not thread-safe.
+*/
 class UrlBuilder {
 public:
     UrlBuilder();
     UrlBuilder(
         const std::string& ns,
         const std::string& collection = "",
-        const std::string& service_id = default_service_id
+        const std::string& service_id = detail::default_service_id
     );
 
     virtual ~UrlBuilder() = default;
