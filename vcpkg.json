@@ -1,0 +1,11 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+    "name": "ps2-rich-presence",
+    "builtin-baseline": "b81bc3a83fdbdffe80325eeabb2ec735a1f3c29d",
+    "dependencies": [
+        {
+            "name": "gtest",
+            "version>=": "1.12.0"
+        }
+    ]
+}

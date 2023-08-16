@@ -1,0 +1,138 @@
+{
+    "version": 6,
+    "configurePresets": [
+        {
+            "name": "require-windows",
+            "hidden": true,
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name": "require-linux",
+            "hidden": true,
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            }
+        },
+        {
+            "name": "vcpkg",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": {
+                    "type": "PATH",
+                    "value": "${sourceDir}/out/install/${presetName}"
+                },
+                "CMAKE_TOOLCHAIN_FILE": {
+                    "type": "PATH",
+                    "value": "$env{VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake"
+                },
+                "VCPKG_INSTALLED_DIR": {
+                    "type": "PATH",
+                    "value": "${sourceDir}/vcpkg_installed"
+                },
+                "VCPKG_INSTALL_OPTIONS": {
+                    "type": "string",
+                    "value": "--no-print-usage"
+                }
+            }
+        },
+        {
+            "name": "debug",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": {
+                    "type": "string",
+                    "value": "Debug"
+                }
+            }
+        },
+        {
+            "name": "release",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": {
+                    "type": "string",
+                    "value": "Release"
+                },
+                "CMAKE_INTERPROCEDURAL_OPTIMIZATION": {
+                    "type": "bool",
+                    "value": true
+                }
+            }
+        },
+        {
+            "name": "windows-msvc",
+            "hidden": true,
+            "inherits": [
+                "require-windows",
+                "vcpkg"
+            ],
+            "generator": "Ninja",
+            "cacheVariables": {
+                "CMAKE_CXX_COMPILER": {
+                    "type": "PATH",
+                    "value": "cl.exe"
+                }
+            }
+        },
+        {
+            "name": "windows-clang",
+            "hidden": true,
+            "inherits": [
+                "require-windows",
+                "vcpkg"
+            ],
+            "generator": "Ninja",
+            "cacheVariables": {
+                "CMAKE_CXX_COMPILER": {
+                    "type": "PATH",
+                    "value": "clang.exe"
+                }
+            }
+        },
+        {
+            "name": "windows-msvc-debug",
+            "displayName": "MSVC (Debug)",
+            "inherits": [
+                "windows-msvc",
+                "debug"
+            ],
+            "cacheVariables": {
+                "CMAKE_CXX_FLAGS_INIT": {
+                    "type": "string",
+                    "value": "/analyze /EHsc"
+                }
+            }
+        },
+        {
+            "name": "windows-msvc-release",
+            "displayName": "MSVC (Release)",
+            "inherits": [
+                "windows-msvc",
+                "release"
+            ]
+        },
+        {
+            "name": "windows-clang-debug",
+            "displayName": "Clang (Debug)",
+            "inherits": [
+                "windows-clang",
+                "debug"
+            ]
+        },
+        {
+            "name": "windows-clang-release",
+            "displayName": "Clang (Release)",
+            "inherits": [
+                "windows-clang",
+                "release"
+            ]
+        }
+    ],
+    "buildPresets": []
+}
