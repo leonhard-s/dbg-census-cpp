@@ -33,6 +33,7 @@ find_package(GTest)
 
 # Build targets
 add_subdirectory(dbg_census/urlgen)
+add_subdirectory(dbg_census/rest)
 
 # TODO (@leonhard-s): Functional tests & integration tests
 
