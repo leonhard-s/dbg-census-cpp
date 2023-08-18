@@ -27,14 +27,19 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND NOT MSVC)
     )
 endif()
 
-
 # Dependencies
 find_package(GTest)
+find_package(httplib REQUIRED)
+find_package(OpenSSL)
 
 # Build targets
 add_subdirectory(dbg_census/urlgen)
 add_subdirectory(dbg_census/rest)
 
-# TODO (@leonhard-s): Functional tests & integration tests
+if(BUILD_TESTING)
+    enable_testing()
+
+    # TODO (@leonhard-s): Functional tests & integration tests
+endif()
 
 # TODO (@leonhard-s): Support installation/export/packaging
