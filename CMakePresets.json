@@ -105,6 +105,19 @@
             "cacheVariables": {
                 "CMAKE_CXX_FLAGS_INIT": {
                     "type": "string",
+                    "value": "/EHsc"
+                }
+            }
+        },
+        {
+            "name": "windows-msvc-debug-analyze",
+            "displayName": "MSVC (Debug with Code Analysis)",
+            "inherits": [
+                "windows-msvc-debug"
+            ],
+            "cacheVariables": {
+                "CMAKE_CXX_FLAGS_INIT": {
+                    "type": "string",
                     "value": "/analyze /EHsc"
                 }
             }
