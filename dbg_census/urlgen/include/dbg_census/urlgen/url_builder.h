@@ -6,9 +6,7 @@
 #include <utility>
 #include <vector>
 
-namespace dbg_census {
-
-namespace urlgen {
+namespace dbg_census::urlgen {
 
 namespace detail {
 
@@ -18,7 +16,7 @@ static const std::string default_service_id = "s:example";
 
 /**
  * @brief A builder class for generating Census REST API URLs.
- * 
+ *
  * @note This class is not thread-safe.
 */
 class UrlBuilder {
@@ -133,6 +131,4 @@ private:
     std::vector<std::string> m_query_commands;
 };
 
-} // namespace urlgen
-
-} // namespace dbg_census
+} // namespace dbg_census::urlgen

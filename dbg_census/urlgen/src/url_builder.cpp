@@ -4,9 +4,7 @@
 
 #include <sstream>
 
-namespace dbg_census {
-
-namespace urlgen {
+namespace dbg_census::urlgen {
 
 static const std::string default_base_url = "https://census.daybreakgames.com";
 static const std::string default_query_verb = "get";
@@ -34,7 +32,7 @@ UrlBuilder::UrlBuilder(
     , m_query_terms{}
     , m_query_commands{}
 {
-    if (!m_service_id.starts_with("s:"))
+    if(!m_service_id.starts_with("s:"))
         m_service_id = "s:" + m_service_id;
 }
 
@@ -52,7 +50,7 @@ UrlBuilder& UrlBuilder::setBaseUrl(const std::string& base_url) {
 }
 
 UrlBuilder& UrlBuilder::setServiceId(const std::string& service_id) {
-    if (service_id.starts_with("s:"))
+    if(service_id.starts_with("s:"))
         m_service_id = service_id;
     else
         m_service_id = "s:" + service_id;
@@ -101,30 +99,28 @@ std::string UrlBuilder::build() const {
     // Required components
     url << m_base_url << "/" << m_service_id << "/" << m_query_verb << "/" << m_namespace;
     // Collection (optional)
-    if (m_collection.size() > 0)
+    if(m_collection.size() > 0)
         url << "/" << m_collection;
     // Query terms (optional)
     url << "?";
-    if (m_query_terms.size() > 0) {
-        for (auto& term : m_query_terms) {
+    if(m_query_terms.size() > 0) {
+        for(auto& term : m_query_terms) {
             url << term.first << "=" << term.second << "&";
         }
     }
     // Query commands (optional)
-    if (m_query_commands.size() > 0) {
-        for (auto& command : m_query_commands) {
-            if (!command.starts_with("c:"))
+    if(m_query_commands.size() > 0) {
+        for(auto& command : m_query_commands) {
+            if(!command.starts_with("c:"))
                 url << "c:";
             url << command << "&";
         }
     }
     // Convert to string, skipping the last character if it's a '&' or '?'
     auto url_str = url.str();
-    if (url_str.back() == '&' || url_str.back() == '?')
+    if(url_str.back() == '&' || url_str.back() == '?')
         return url_str.substr(0, url_str.size() - 1);
     return url_str;
 }
 
-} // namespace urlgen
-
-} // namespace dbg_census
+} // namespace dbg_census::urlgen
