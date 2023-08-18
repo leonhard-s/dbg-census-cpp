@@ -34,5 +34,6 @@ target_sources(${PROJECT_NAME}_REST PRIVATE
 )
 
 if(BUILD_TESTING)
+  enable_testing()
   add_subdirectory(tests)
 endif()
