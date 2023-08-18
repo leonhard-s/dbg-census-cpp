@@ -38,8 +38,9 @@ add_subdirectory(dbg_census/rest)
 
 if(BUILD_TESTING)
     enable_testing()
+    add_subdirectory(tests/functional)
 
-    # TODO (@leonhard-s): Functional tests & integration tests
+    # TODO (@leonhard-s): Integration tests
 endif()
 
 # TODO (@leonhard-s): Support installation/export/packaging
