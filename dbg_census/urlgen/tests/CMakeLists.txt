@@ -10,3 +10,4 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 endif()
 
 add_executable(UT_UrlBuilder unit/test_url_builder.cpp)
+add_test(NAME UT_UrlBuilder COMMAND UT_UrlBuilder)

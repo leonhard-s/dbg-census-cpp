@@ -13,5 +13,6 @@ target_sources(${PROJECT_NAME}_UrlGen PRIVATE
 )
 
 if(BUILD_TESTING)
+  enable_testing()
   add_subdirectory(tests)
 endif()
