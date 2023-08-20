@@ -19,7 +19,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" OR (CMAKE_CXX_COMPILER_ID STREQUAL "Cla
         # Disable specific warnings
         /wd5045 # 'Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified'
     )
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND NOT MSVC)
+else()
     add_compile_options(
         -Wall
         -Wextra
