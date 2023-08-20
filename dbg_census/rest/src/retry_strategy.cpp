@@ -2,6 +2,7 @@
 
 #include "dbg_census/rest/retry_strategy.h"
 
+#include <algorithm>
 #include <cmath>
 #include <stdexcept>
 
