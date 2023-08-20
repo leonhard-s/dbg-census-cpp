@@ -2,6 +2,9 @@
 
 #include "dbg_census/rest/retry_strategy.h"
 
+#include <cmath>
+#include <stdexcept>
+
 namespace dbg_census {
 
 namespace rest {
@@ -54,7 +57,7 @@ bool ExponentialBackoff::shouldRetry(
 
 std::chrono::milliseconds ExponentialBackoff::getRetryDelay(std::size_t num_attempts) const {
     auto delay = m_initial_delay * std::pow(m_backoff_factor, num_attempts - 1);
-    return std::min(duration_cast<std::chrono::milliseconds>(delay), m_max_delay);
+    return std::min(std::chrono::duration_cast<std::chrono::milliseconds>(delay), m_max_delay);
 }
 
 } // namespace rest
