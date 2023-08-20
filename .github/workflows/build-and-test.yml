@@ -1,0 +1,111 @@
+# This workflow is responsible for building and testing every commit and PR.
+
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+  workflow_dispatch:
+
+env:
+  VCPKG_CACHE: ${{ github.workspace }}/vcpkg_installed
+
+jobs:
+  setup_vcpkg:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Restore vcpkg cache
+        id: cache-vcpkg-restore
+        uses: actions/cache/restore@v3
+        with:
+          path: ${{ env.VCPKG_CACHE }}
+          key: ${{ runner.os }}-vcpkg-${{ hashFiles('vcpkg.json') }}
+          restore-keys: ${{ runner.os }}-vcpkg-
+
+      - name: Install dependencies
+        if: steps.cache-vcpkg-restore.outputs.cache-hit != 'true'
+        run: |
+          vcpkg install --triplet x64-${{ runner.os }} --x-install-root ${{ env.VCPKG_CACHE }} --no-print-usage
+
+      - name: Save updated vcpkg cache
+        id: cache-vcpkg-save
+        if: steps.cache-vcpkg-restore.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v3
+        with:
+          path: ${{ env.VCPKG_CACHE }}
+          key: ${{ runner.os }}-vcpkg-${{ hashFiles('vcpkg.json') }}
+
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        build_type: [Debug, Release]
+        include:
+          - compiler: clang
+          - os: windows-latest
+            compiler: msvc
+          - os: ubuntu-latest
+            compiler: gcc
+    runs-on: ${{ matrix.os }}
+    needs: setup_vcpkg
+    env:
+      BUILD_DIR: ${{ github.workspace }}/build
+      DIST_DIR: ${{ github.workspace }}/dist
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Restore vcpkg cache
+        id: cache-vcpkg-restore
+        uses: actions/cache/restore@v3
+        with:
+          path: ${{ env.VCPKG_CACHE }}
+          key: ${{ runner.os }}-vcpkg-${{ hashFiles('vcpkg.json') }}
+          restore-keys: ${{ runner.os }}-vcpkg-
+
+      - name: Get CMake preset name
+        id: cmake-preset
+        uses: ASzc/change-string-case-action@v5
+        with:
+          string: ${{ runner.os }}-${{ matrix.compiler }}-${{ matrix.build_type }}
+
+      - name: Setup Ninja
+        uses: ashutoshvarma/setup-ninja@master
+        with:
+          version: 1.11.0
+          dest: ${{ env.BUILD_DIR }}/ninja_bin
+  
+      - name: Enter VS Developer Command Prompt
+        if: matrix.os == 'windows-latest'
+        uses: TheMrMilchmann/setup-msvc-dev@v2
+        with:
+          arch: x64
+
+      - name: Configure CMake
+        env:
+          VCPKG_INSTALLATION_ROOT: ${{ runner.os == 'Windows' && 'C:/vcpkg' || '/usr/local/share/vcpkg' }}
+        run: |
+          cmake -S . -B ${{ env.BUILD_DIR }} -G Ninja --preset ${{ steps.cmake-preset.outputs.lowercase }} -DVCPKG_MANIFEST_INSTALL=OFF -DCMAKE_MAKE_PROGRAM=${{ env.BUILD_DIR }}/ninja_bin/ninja
+
+      - name: Build
+        run: cmake --build ${{ env.BUILD_DIR }}
+
+      # TODO (lse): Add testing step
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ runner.os }}-${{ matrix.compiler }}-${{ matrix.build_type }}
+          path: ${{ env.BUILD_DIR }}
+
+# TODO (lse): Add install & packaging job
