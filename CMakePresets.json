@@ -97,7 +97,6 @@
             "name": "windows-msvc",
             "hidden": true,
             "inherits": [
-                "require-windows",
                 "vcpkg-windows"
             ],
             "generator": "Ninja",
@@ -112,7 +111,6 @@
             "name": "windows-clang",
             "hidden": true,
             "inherits": [
-                "require-windows",
                 "vcpkg-windows"
             ],
             "generator": "Ninja",
@@ -178,7 +176,6 @@
             "name": "linux-gcc",
             "hidden": true,
             "inherits": [
-                "require-linux",
                 "vcpkg-linux"
             ],
             "generator": "Ninja",
@@ -193,7 +190,6 @@
             "name": "linux-clang",
             "hidden": true,
             "inherits": [
-                "require-linux",
                 "vcpkg-linux"
             ],
             "generator": "Ninja",
