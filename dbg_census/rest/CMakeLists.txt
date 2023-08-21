@@ -1,6 +1,11 @@
 add_library(${PROJECT_NAME}_REST)
 add_library(${PROJECT_NAME}::REST ALIAS ${PROJECT_NAME}_REST)
 
+set_target_properties(${PROJECT_NAME}_REST PROPERTIES
+  EXPORT_NAME REST
+  OUTPUT_NAME dbg_census_rest
+)
+
 option(HTTPS_SUPPORT "HTTPS support" ON)
 if(HTTPS_SUPPORT AND NOT TARGET OpenSSL::SSL)
   message(WARNING "HTTPS support is enabled but OpenSSL is not found. Disabling HTTPS support.")
@@ -36,4 +41,14 @@ target_sources(${PROJECT_NAME}_REST PRIVATE
 if(BUILD_TESTING)
   enable_testing()
   add_subdirectory(tests)
+endif()
+
+include(GNUInstallDirs)
+install(TARGETS ${PROJECT_NAME}_REST EXPORT ${PROJECT_NAME}Targets)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}})
+
+if(BUILD_SHARED_LIBS AND WIN32)
+  install(FILES $<TARGET_PDB_FILE:${PROJECT_NAME}_REST> OPTIONAL
+    DESTINATION ${CMAKE_INSTALL_BINDIR}
+  )
 endif()

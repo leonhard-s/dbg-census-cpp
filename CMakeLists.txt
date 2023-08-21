@@ -19,7 +19,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" OR (CMAKE_CXX_COMPILER_ID STREQUAL "Cla
         # Disable specific warnings
         /wd5045 # 'Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified'
     )
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND NOT MSVC)
+else()
     add_compile_options(
         -Wall
         -Wextra
@@ -43,4 +43,29 @@ if(BUILD_TESTING)
     # TODO (@leonhard-s): Integration tests
 endif()
 
-# TODO (@leonhard-s): Support installation/export/packaging
+# Installation
+include(GNUInstallDirs)
+install(EXPORT ${PROJECT_NAME}Targets
+    NAMESPACE "${PROJECT_NAME}::"
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+)
+include(CMakePackageConfigHelpers)
+configure_package_config_file(
+    "cmake/${PROJECT_NAME}Config.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+)
+write_basic_package_version_file(
+    "${PROJECT_NAME}ConfigVersion.cmake"
+    VERSION ${PROJECT_VERSION}
+    # TODO (leonhard-s): Use "SameMajorVersion" once we have a stable API
+    COMPATIBILITY "SameMinorVersion"
+)
+install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+)
+install(FILES "LICENSE" "README.md" DESTINATION "share")
+
+# TODO (@leonhard-s): Support packaging
