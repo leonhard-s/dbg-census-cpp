@@ -12,9 +12,17 @@ if(HTTPS_SUPPORT AND NOT TARGET OpenSSL::SSL)
   set(HTTPS_SUPPORT OFF)
 endif()
 
+include(GenerateExportHeader)
+set(EXPORT_HEADER ${CMAKE_CURRENT_BINARY_DIR}/include/dbg_census/rest/export.h)
+generate_export_header(${PROJECT_NAME}_REST
+  EXPORT_FILE_NAME ${EXPORT_HEADER}
+  EXPORT_MACRO_NAME DBGCENSUS_API
+)
+
 target_include_directories(${PROJECT_NAME}_REST
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
     $<INSTALL_INTERFACE:include>
 )
 
@@ -36,6 +44,7 @@ target_sources(${PROJECT_NAME}_REST PRIVATE
     "src/http_client_adapter.h"
     "src/rest_api_client.cpp"
     "src/retry_strategy.cpp"
+    "${EXPORT_HEADER}"
 )
 
 if(BUILD_TESTING)
@@ -45,7 +54,8 @@ endif()
 
 include(GNUInstallDirs)
 install(TARGETS ${PROJECT_NAME}_REST EXPORT ${PROJECT_NAME}Targets)
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}})
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(FILES ${EXPORT_HEADER} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/dbg_census/rest)
 
 if(BUILD_SHARED_LIBS AND WIN32)
   install(FILES $<TARGET_PDB_FILE:${PROJECT_NAME}_REST> OPTIONAL

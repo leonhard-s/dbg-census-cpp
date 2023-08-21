@@ -5,6 +5,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include "dbg_census/rest/export.h"
 
 namespace dbg_census::rest {
 
@@ -13,14 +14,14 @@ class HttpClientAdapter;
 
 class RestApiClient {
 public:
-    RestApiClient();
-    explicit RestApiClient(std::unique_ptr<RetryStrategy> retryStrategy);
+    DBGCENSUS_API RestApiClient();
+    DBGCENSUS_API explicit RestApiClient(std::unique_ptr<RetryStrategy> retryStrategy);
 
-    virtual ~RestApiClient();
-    RestApiClient(const RestApiClient&) = delete;
-    RestApiClient(RestApiClient&&) noexcept = default;
-    RestApiClient& operator=(const RestApiClient&) = delete;
-    RestApiClient& operator=(RestApiClient&&) noexcept = default;
+    DBGCENSUS_API virtual ~RestApiClient();
+    DBGCENSUS_API RestApiClient(const RestApiClient&) = delete;
+    DBGCENSUS_API RestApiClient(RestApiClient&&) noexcept = default;
+    DBGCENSUS_API RestApiClient& operator=(const RestApiClient&) = delete;
+    DBGCENSUS_API RestApiClient& operator=(RestApiClient&&) noexcept = default;
 
     /**
      * @brief Send a request to the given URL.
@@ -31,7 +32,7 @@ public:
      * @param query The URL to send the request to.
      * @return The response payload, if the request was successful.
     */
-    std::optional<std::string> request(const std::string& query);
+    DBGCENSUS_API std::optional<std::string> request(const std::string& query);
 
 protected:
     /**
@@ -44,13 +45,13 @@ protected:
      * @param payload The payload to validate.
      * @return true if the payload is valid, false otherwise.
     */
-    virtual bool validatePayload([[maybe_unused]] const std::string& payload) const { return true; };
+    DBGCENSUS_API virtual bool validatePayload([[maybe_unused]] const std::string& payload) const { return true; };
 
 private:
     std::unique_ptr<RetryStrategy> m_retry_strategy;
     std::unique_ptr<HttpClientAdapter> m_http_client_adapter;
 
-    virtual std::string runQuery(const std::string& query);
+    DBGCENSUS_API virtual std::string runQuery(const std::string& query);
 };
 
 } // namespace dbg_census::rest
