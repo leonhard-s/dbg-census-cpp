@@ -20,5 +20,5 @@ if(BUILD_TESTING)
   add_subdirectory(tests)
 endif()
 
-install(TARGETS ${PROJECT_NAME}_UrlGen EXPORT ${PROJECT_NAME}Config)
+install(TARGETS ${PROJECT_NAME}_UrlGen EXPORT ${PROJECT_NAME}Targets)
 install(DIRECTORY include/ DESTINATION include)
