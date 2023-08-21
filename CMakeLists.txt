@@ -43,4 +43,11 @@ if(BUILD_TESTING)
     # TODO (@leonhard-s): Integration tests
 endif()
 
-# TODO (@leonhard-s): Support installation/export/packaging
+# Installation
+install(EXPORT ${PROJECT_NAME}Config
+    NAMESPACE "${PROJECT_NAME}::"
+    DESTINATION "lib/cmake/${PROJECT_NAME}"
+)
+install(FILES "LICENSE" "README.md" DESTINATION "share")
+
+# TODO (@leonhard-s): Support packaging

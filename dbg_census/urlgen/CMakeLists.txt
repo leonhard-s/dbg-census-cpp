@@ -1,6 +1,10 @@
 add_library(${PROJECT_NAME}_UrlGen INTERFACE)
 add_library(${PROJECT_NAME}::UrlGen ALIAS ${PROJECT_NAME}_UrlGen)
 
+set_target_properties(${PROJECT_NAME}_UrlGen PROPERTIES
+  EXPORT_NAME UrlGen
+)
+
 target_include_directories(${PROJECT_NAME}_UrlGen
   INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -15,3 +19,6 @@ if(BUILD_TESTING)
   enable_testing()
   add_subdirectory(tests)
 endif()
+
+install(TARGETS ${PROJECT_NAME}_UrlGen EXPORT ${PROJECT_NAME}Config)
+install(DIRECTORY include/ DESTINATION include)
