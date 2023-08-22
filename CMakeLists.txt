@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-set(CMAKE_CXX_SVISIBILITY_PRESET hidden)
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
 
 # Compiler options
@@ -51,6 +51,7 @@ FetchContent_MakeAvailable(ixwebsocket)
 # Build targets
 add_subdirectory(dbg_census/urlgen)
 add_subdirectory(dbg_census/rest)
+add_subdirectory(dbg_census/stream)
 
 if(BUILD_TESTING)
     enable_testing()
