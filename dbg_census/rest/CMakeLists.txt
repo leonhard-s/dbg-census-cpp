@@ -44,6 +44,8 @@ target_sources(${PROJECT_NAME}_REST PRIVATE
     "src/http_client_adapter.h"
     "src/rest_api_client.cpp"
     "src/retry_strategy.cpp"
+    "src/url_splitter.cpp"
+    "src/url_splitter.h"
     "${EXPORT_HEADER}"
 )
 

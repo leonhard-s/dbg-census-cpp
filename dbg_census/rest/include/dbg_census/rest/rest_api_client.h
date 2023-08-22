@@ -18,9 +18,9 @@ public:
     DBGCENSUS_API explicit RestApiClient(std::unique_ptr<RetryStrategy> retryStrategy);
 
     DBGCENSUS_API virtual ~RestApiClient();
-    DBGCENSUS_API RestApiClient(const RestApiClient&) = delete;
+    RestApiClient(const RestApiClient&) = delete;
     DBGCENSUS_API RestApiClient(RestApiClient&&) noexcept = default;
-    DBGCENSUS_API RestApiClient& operator=(const RestApiClient&) = delete;
+    RestApiClient& operator=(const RestApiClient&) = delete;
     DBGCENSUS_API RestApiClient& operator=(RestApiClient&&) noexcept = default;
 
     /**
