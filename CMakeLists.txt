@@ -70,4 +70,16 @@ install(FILES
 )
 install(FILES "LICENSE" "README.md" DESTINATION "share")
 
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set(RUNTIME_DEPENDENCY_DIR ${CMAKE_INSTALL_BINDIR})
+else()
+    set(RUNTIME_DEPENDENCY_DIR ${CMAKE_INSTALL_LIBDIR})
+endif()
+
+install(RUNTIME_DEPENDENCY_SET ${PROJECT_NAME}Deps
+  PRE_EXCLUDE_REGEXES [[api-ms-win-.*]] [[ext-ms-.*]] [[kernel32\.dll]]
+  POST_EXCLUDE_REGEXES [[.*/system32/.*\.dll]] [[.*/dbg_census/.+/.+\.dll]]
+  DESTINATION ${RUNTIME_DEPENDENCY_DIR}
+)
+
 # TODO (@leonhard-s): Support packaging

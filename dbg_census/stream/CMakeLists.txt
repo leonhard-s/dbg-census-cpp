@@ -2,8 +2,8 @@ add_library(${PROJECT_NAME}_Stream)
 add_library(${PROJECT_NAME}::Stream ALIAS ${PROJECT_NAME}_Stream)
 
 set_target_properties(${PROJECT_NAME}_Stream PROPERTIES
-  OUTPUT_NAME Stream
-  EXPORT_NAME dbg_census_stream
+  OUTPUT_NAME dbg_census_stream
+  EXPORT_NAME Stream
 )
 
 include(GenerateExportHeader)
@@ -29,6 +29,7 @@ target_link_libraries(${PROJECT_NAME}_Stream
 target_sources(${PROJECT_NAME}_Stream PRIVATE
   "include/dbg_census/stream/ess_client.h"
   "src/ess_client.cpp"
+  "${EXPORT_HEADER}"
 )
 
 if(BUILD_TESTING)
@@ -37,7 +38,10 @@ if(BUILD_TESTING)
 endif()
 
 include(GNUInstallDirs)
-install(TARGETS ${PROJECT_NAME}_Stream EXPORT ${PROJECT_NAME}Targets)
+install(TARGETS ${PROJECT_NAME}_Stream
+  EXPORT ${PROJECT_NAME}Targets
+  RUNTIME_DEPENDENCY_SET ${PROJECT_NAME}Deps
+)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(FILES ${EXPORT_HEADER} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/dbg_census/stream)
 
