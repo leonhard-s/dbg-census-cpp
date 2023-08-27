@@ -30,7 +30,9 @@ target_link_libraries(${PROJECT_NAME}_Stream
 
 target_sources(${PROJECT_NAME}_Stream PRIVATE
   "include/dbg_census/stream/ess_client.h"
+  "include/dbg_census/stream/subscription_builder.h"
   "src/ess_client.cpp"
+  "src/subscription_builder.cpp"
   "${EXPORT_HEADER}"
 )
 
