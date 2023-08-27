@@ -127,13 +127,7 @@
             "inherits": [
                 "windows-msvc",
                 "debug"
-            ],
-            "cacheVariables": {
-                "CMAKE_CXX_FLAGS_INIT": {
-                    "type": "string",
-                    "value": "/EHsc"
-                }
-            }
+            ]
         },
         {
             "name": "windows-msvc-debug-analyze",
@@ -144,7 +138,7 @@
             "cacheVariables": {
                 "CMAKE_CXX_FLAGS_INIT": {
                     "type": "string",
-                    "value": "/analyze /EHsc"
+                    "value": "/analyze"
                 }
             }
         },
