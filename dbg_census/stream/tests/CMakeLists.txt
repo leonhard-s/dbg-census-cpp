@@ -13,3 +13,6 @@ endif()
 
 add_executable(UT_EssClient unit/test_ess_client.cpp)
 add_test(NAME UT_EssClient COMMAND UT_EssClient)
+
+add_executable(UT_SubscriptionBuilder unit/test_subscription_builder.cpp)
+add_test(NAME UT_SubscriptionBuilder COMMAND UT_SubscriptionBuilder)
