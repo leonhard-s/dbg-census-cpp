@@ -4,12 +4,11 @@
 
 # Build directories
 build/
-out/build/
+out/
 
 # Local install directories
 dist/
 install/
-out/install/
 
 # vcpkg
 vcpkg_installed/
