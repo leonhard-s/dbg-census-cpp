@@ -24,6 +24,7 @@ target_include_directories(${PROJECT_NAME}_REST
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
     $<INSTALL_INTERFACE:include>
+  PRIVATE src
 )
 
 target_compile_definitions(${PROJECT_NAME}_REST
