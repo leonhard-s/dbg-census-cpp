@@ -7,6 +7,7 @@
 #include <string>
 
 #include "dbg_census/stream/export.h"
+#include "dbg_census/common/macros.h"
 
 namespace dbg_census::stream {
 
@@ -44,7 +45,9 @@ public:
 
 private:
     class Impl;
+DISABLE_WARNING_4251
     std::unique_ptr<Impl> m_impl;
+ENABLE_WARNING_4251
 };
 
 } // namespace dbg_census::stream

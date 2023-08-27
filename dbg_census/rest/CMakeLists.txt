@@ -33,6 +33,8 @@ target_compile_definitions(${PROJECT_NAME}_REST
 )
 
 target_link_libraries(${PROJECT_NAME}_REST
+  PUBLIC
+    ${PROJECT_NAME}::Common
   PRIVATE
     httplib::httplib
     $<$<BOOL:${HTTPS_SUPPORT}>:OpenSSL::SSL OpenSSL::Crypto>

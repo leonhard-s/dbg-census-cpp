@@ -22,6 +22,8 @@ target_include_directories(${PROJECT_NAME}_Stream
 )
 
 target_link_libraries(${PROJECT_NAME}_Stream
+  PUBLIC
+    ${PROJECT_NAME}::Common
   PRIVATE
     ixwebsocket::ixwebsocket
 )

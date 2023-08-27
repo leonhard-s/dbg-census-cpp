@@ -39,6 +39,7 @@ else()
 endif()
 
 # Build targets
+add_subdirectory(dbg_census/common)
 add_subdirectory(dbg_census/urlgen)
 add_subdirectory(dbg_census/rest)
 add_subdirectory(dbg_census/stream)
