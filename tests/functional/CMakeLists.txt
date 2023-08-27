@@ -13,3 +13,7 @@ add_test(NAME FT_RestApiClient COMMAND FT_RestApiClient)
 add_executable(FT_UrlGen test_urlgen.cpp)
 target_link_libraries(FT_UrlGen DbgCensus::UrlGen)
 add_test(NAME FT_UrlGen COMMAND FT_UrlGen)
+
+add_executable(FT_EssClient test_ess_client.cpp)
+target_link_libraries(FT_EssClient DbgCensus::Stream)
+add_test(NAME FT_EssClient COMMAND FT_EssClient)

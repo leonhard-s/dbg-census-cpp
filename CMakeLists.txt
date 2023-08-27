@@ -10,8 +10,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-set(CMAKE_CXX_SVISIBILITY_PRESET hidden)
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/bin/$<CONFIG>)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib/$<CONFIG>)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib/$<CONFIG>)
+set(CMAKE_PDB_OUTPUT_DIRECTORY     ${CMAKE_CURRENT_BINARY_DIR}/bin/$<CONFIG>)
+
+# Dependencies
+add_subdirectory(3rdparty EXCLUDE_FROM_ALL)
 
 # Compiler options
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" OR (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND MSVC))
@@ -30,14 +38,10 @@ else()
     )
 endif()
 
-# Dependencies
-find_package(GTest)
-find_package(httplib REQUIRED)
-find_package(OpenSSL)
-
 # Build targets
 add_subdirectory(dbg_census/urlgen)
 add_subdirectory(dbg_census/rest)
+add_subdirectory(dbg_census/stream)
 
 if(BUILD_TESTING)
     enable_testing()
@@ -70,5 +74,17 @@ install(FILES
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
 install(FILES "LICENSE" "README.md" DESTINATION "share")
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set(RUNTIME_DEPENDENCY_DIR ${CMAKE_INSTALL_BINDIR})
+else()
+    set(RUNTIME_DEPENDENCY_DIR ${CMAKE_INSTALL_LIBDIR})
+endif()
+
+install(RUNTIME_DEPENDENCY_SET ${PROJECT_NAME}Deps
+  PRE_EXCLUDE_REGEXES [[api-ms-win-.*]] [[ext-ms-.*]] [[kernel32\.dll]]
+  POST_EXCLUDE_REGEXES [[.*/system32/.*\.dll]] [[.*/dbg_census/.+/.+\.dll]]
+  DESTINATION ${RUNTIME_DEPENDENCY_DIR}
+)
 
 # TODO (@leonhard-s): Support packaging
