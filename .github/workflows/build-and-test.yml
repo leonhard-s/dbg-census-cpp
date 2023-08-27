@@ -60,7 +60,7 @@ jobs:
     needs: setup_vcpkg
     env:
       BUILD_DIR: ${{ github.workspace }}/build
-      DIST_DIR: ${{ github.workspace }}/dist
+      INSTALL_DIR: ${{ github.workspace }}/install
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -95,10 +95,10 @@ jobs:
         env:
           VCPKG_INSTALLATION_ROOT: ${{ runner.os == 'Windows' && 'C:/vcpkg' || '/usr/local/share/vcpkg' }}
         run: |
-          cmake -S . -B ${{ env.BUILD_DIR }} -G Ninja --preset ${{ steps.cmake-preset.outputs.lowercase }} -DVCPKG_MANIFEST_INSTALL=OFF -DCMAKE_MAKE_PROGRAM=${{ env.BUILD_DIR }}/ninja_bin/ninja
+          cmake -S . -B ${{ env.BUILD_DIR }} -G Ninja --preset ${{ steps.cmake-preset.outputs.lowercase }} -DVCPKG_MANIFEST_INSTALL=OFF -DCMAKE_MAKE_PROGRAM=${{ env.BUILD_DIR }}/ninja_bin/ninja -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_DIR }}
 
       - name: Build
-        run: cmake --build ${{ env.BUILD_DIR }} --config ${{ matrix.build_type }}
+        run: cmake --build ${{ env.BUILD_DIR }} --config ${{ matrix.build_type }} --target install
 
       - name: Test
         run: |
@@ -108,7 +108,13 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ runner.os }}-${{ matrix.compiler }}-${{ matrix.build_type }}
+          name: ${{ runner.os }}-${{ matrix.compiler }}-${{ matrix.build_type }}-build
           path: ${{ env.BUILD_DIR }}
 
-# TODO (lse): Add install & packaging job
+      - name: Upload install artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ runner.os }}-${{ matrix.compiler }}-${{ matrix.build_type }}-install
+          path: ${{ env.INSTALL_DIR }}
+
+# TODO (leonhard-s): Packaging job
