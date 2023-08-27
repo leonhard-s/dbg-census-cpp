@@ -83,7 +83,7 @@ else()
 endif()
 
 install(RUNTIME_DEPENDENCY_SET ${PROJECT_NAME}Deps
-  PRE_EXCLUDE_REGEXES [[api-ms-win-.*]] [[ext-ms-.*]] [[kernel32\.dll]]
+  PRE_EXCLUDE_REGEXES [[api-ms-win-.*]] [[ext-ms-.*]] [[kernel32\.dll]] [[clang_rt.asan.*]]
   POST_EXCLUDE_REGEXES [[.*/system32/.*\.dll]] [[.*/dbg_census/.+/.+\.dll]]
   DESTINATION ${RUNTIME_DEPENDENCY_DIR}
 )

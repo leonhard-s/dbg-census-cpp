@@ -143,6 +143,19 @@
             }
         },
         {
+            "name": "windows-msvc-debug-asan",
+            "displayName": "MSVC (Debug with AddressSanitizer)",
+            "inherits": [
+                "windows-msvc-debug"
+            ],
+            "cacheVariables": {
+                "CMAKE_CXX_FLAGS_INIT": {
+                    "type": "string",
+                    "value": "/fsanitize=address"
+                }
+            }
+        },
+        {
             "name": "windows-msvc-release",
             "displayName": "MSVC (Release)",
             "inherits": [
