@@ -98,9 +98,12 @@ jobs:
           cmake -S . -B ${{ env.BUILD_DIR }} -G Ninja --preset ${{ steps.cmake-preset.outputs.lowercase }} -DVCPKG_MANIFEST_INSTALL=OFF -DCMAKE_MAKE_PROGRAM=${{ env.BUILD_DIR }}/ninja_bin/ninja
 
       - name: Build
-        run: cmake --build ${{ env.BUILD_DIR }}
+        run: cmake --build ${{ env.BUILD_DIR }} --config ${{ matrix.build_type }}
 
-      # TODO (lse): Add testing step
+      - name: Test
+        run: |
+          cd ${{ env.BUILD_DIR }}
+          ctest --output-on-failure
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
