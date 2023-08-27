@@ -6,9 +6,7 @@
 #include <cmath>
 #include <stdexcept>
 
-namespace dbg_census {
-
-namespace rest {
+namespace dbg_census::rest {
 
 bool NoRetry::shouldRetry(
     [[maybe_unused]] int status_code,
@@ -61,6 +59,4 @@ std::chrono::milliseconds ExponentialBackoff::getRetryDelay(std::size_t num_atte
     return std::min(std::chrono::duration_cast<std::chrono::milliseconds>(delay), m_max_delay);
 }
 
-} // namespace rest
-
-} // namespace dbg_census
+} // namespace dbg_census::rest

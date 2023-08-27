@@ -5,9 +5,7 @@
 #include <chrono>
 #include "dbg_census/rest/export.h"
 
-namespace dbg_census {
-
-namespace rest {
+namespace dbg_census::rest {
 
 /**
  * @brief A strategy for retrying failed HTTP requests.
@@ -47,6 +45,4 @@ private:
     std::chrono::milliseconds m_max_total_delay;
 };
 
-} // namespace rest
-
-} // namespace dbg_census
+} // namespace dbg_census::rest
