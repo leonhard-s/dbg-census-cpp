@@ -18,29 +18,29 @@ static const std::string default_ess_service_id = "s:example";
 
 } // namespace detail
 
-class EssClient {
+class DBGCENSUS_API EssClient {
 public:
-    DBGCENSUS_API explicit EssClient(
+    explicit EssClient(
         const std::string& ess_service_id = detail::default_ess_service_id,
         const std::string& ess_environment = detail::default_ess_environment,
         const std::string& ess_endpoint = detail::default_ess_endpoint
     );
-    DBGCENSUS_API virtual ~EssClient();
+    virtual ~EssClient();
     EssClient(const EssClient&) = delete;
     EssClient& operator=(const EssClient&) = delete;
-    DBGCENSUS_API EssClient(EssClient&&) = default;
-    DBGCENSUS_API EssClient& operator=(EssClient&&) = default;
+    EssClient(EssClient&&) = default;
+    EssClient& operator=(EssClient&&) = default;
 
-    DBGCENSUS_API void connect();
-    DBGCENSUS_API void disconnect();
+    void connect();
+    void disconnect();
 
-    DBGCENSUS_API void setOnConnectCallback(std::function<void()> callback);
-    DBGCENSUS_API void setOnDisconnectCallback(std::function<void()> callback);
-    DBGCENSUS_API void setOnReadyCallback(std::function<void()> callback);
-    DBGCENSUS_API void setOnMessageCallback(std::function<void(const std::string&)> callback);
-    DBGCENSUS_API void setOnEventPayloadCallback(std::function<void(const std::string&)> callback);
+    void setOnConnectCallback(std::function<void()> callback);
+    void setOnDisconnectCallback(std::function<void()> callback);
+    void setOnReadyCallback(std::function<void()> callback);
+    void setOnMessageCallback(std::function<void(const std::string&)> callback);
+    void setOnEventPayloadCallback(std::function<void(const std::string&)> callback);
 
-    DBGCENSUS_API void send(const std::string& message);
+    void send(const std::string& message);
 
 private:
     class Impl;

@@ -12,16 +12,16 @@ namespace dbg_census::rest {
 class RetryStrategy;
 class HttpClientAdapter;
 
-class RestApiClient {
+class DBGCENSUS_API RestApiClient {
 public:
-    DBGCENSUS_API RestApiClient();
-    DBGCENSUS_API explicit RestApiClient(std::unique_ptr<RetryStrategy> retryStrategy);
+    RestApiClient();
+    explicit RestApiClient(std::unique_ptr<RetryStrategy> retryStrategy);
 
-    DBGCENSUS_API virtual ~RestApiClient();
+    virtual ~RestApiClient();
     RestApiClient(const RestApiClient&) = delete;
-    DBGCENSUS_API RestApiClient(RestApiClient&&) noexcept = default;
+    RestApiClient(RestApiClient&&) noexcept = default;
     RestApiClient& operator=(const RestApiClient&) = delete;
-    DBGCENSUS_API RestApiClient& operator=(RestApiClient&&) noexcept = default;
+    RestApiClient& operator=(RestApiClient&&) noexcept = default;
 
     /**
      * @brief Send a request to the given URL.
@@ -32,7 +32,7 @@ public:
      * @param query The URL to send the request to.
      * @return The response payload, if the request was successful.
     */
-    DBGCENSUS_API std::optional<std::string> request(const std::string& query);
+    std::optional<std::string> request(const std::string& query);
 
 protected:
     /**
@@ -45,13 +45,13 @@ protected:
      * @param payload The payload to validate.
      * @return true if the payload is valid, false otherwise.
     */
-    DBGCENSUS_API virtual bool validatePayload([[maybe_unused]] const std::string& payload) const { return true; };
+    virtual bool validatePayload([[maybe_unused]] const std::string& payload) const { return true; };
 
 private:
     std::unique_ptr<RetryStrategy> m_retry_strategy;
     std::unique_ptr<HttpClientAdapter> m_http_client_adapter;
 
-    DBGCENSUS_API virtual std::string runQuery(const std::string& query);
+    virtual std::string runQuery(const std::string& query);
 };
 
 } // namespace dbg_census::rest
