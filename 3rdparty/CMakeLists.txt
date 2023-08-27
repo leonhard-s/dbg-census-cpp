@@ -10,9 +10,8 @@ set(USE_TLS ON CACHE INTERNAL "ixWebSocket configuration" FORCE)
 set(USE_OPEN_SSL ON CACHE INTERNAL "ixWebSocket configuration" FORCE)
 set(BUILD_SHARED_LIBS OFF)
 include(FetchContent)
-FetchContent_Declare(ixwebsocket
+FetchContent_Declare(ixwebsocket SYSTEM
     GIT_REPOSITORY https://github.com/machinezone/IXWebSocket
-    GIT_TAG v11.4.4
-    SYSTEM
+    GIT_TAG "v11.4.4"
 )
 FetchContent_MakeAvailable(ixwebsocket)
