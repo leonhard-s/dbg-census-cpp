@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(DbgCensus VERSION 0.1.0 LANGUAGES CXX)
+project(DbgCensus VERSION 0.2.0 LANGUAGES CXX)
 
 # Project-wide configuration
 option(BUILD_TESTING "Build tests" ON)
