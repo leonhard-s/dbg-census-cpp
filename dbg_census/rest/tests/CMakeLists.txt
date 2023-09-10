@@ -20,4 +20,5 @@ add_executable(UT_HttpClientAdapter unit/test_http_client_adapter.cpp
     # TODO (leonhard-s): Reuse OBJ files rather than recompiling the sources
     ${CMAKE_CURRENT_SOURCE_DIR}/../src/http_client_adapter.cpp
 )
+target_link_libraries(UT_HttpClientAdapter PRIVATE ixwebsocket::ixwebsocket)
 add_test(NAME UT_HttpClientAdapter COMMAND UT_HttpClientAdapter)

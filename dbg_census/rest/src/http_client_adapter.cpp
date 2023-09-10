@@ -1,17 +1,18 @@
 // Copyright 2023 Leonhard S.
 
 #include "http_client_adapter.h"
+#include <ixwebsocket/IXNetSystem.h>
 #include "url_splitter.h"
 
 namespace dbg_census::rest {
 
-std::shared_ptr<Client> HttpClientAdapter::getClient(const std::string& url) {
-    const auto host_with_schema = getHostFromUrl(url, true);
-    const auto host = getHostFromUrl(url, false);
-    if(m_clients.find(host_with_schema) == m_clients.end()) {
-        m_clients[host_with_schema] = std::make_shared<Client>(host);
+std::shared_ptr<ix::HttpClient> HttpClientAdapter::getClient() {
+    if(!m_initialized) {
+        ix::initNetSystem();
+        m_client = std::make_shared<ix::HttpClient>();
+        m_initialized = true;
     }
-    return m_clients[host_with_schema];
+    return m_client;
 }
 
 } // namespace dbg_census::rest
