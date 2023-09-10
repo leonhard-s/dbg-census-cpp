@@ -1,5 +1,4 @@
 find_package(GTest GLOBAL)
-find_package(httplib REQUIRED GLOBAL)
 find_package(OpenSSL GLOBAL)
 find_package(ZLIB REQUIRED GLOBAL)
 
@@ -16,7 +15,10 @@ endif()
 # want it to use the same OpenSSL version.
 set(USE_TLS ON CACHE INTERNAL "ixWebSocket configuration" FORCE)
 set(USE_OPEN_SSL ON CACHE INTERNAL "ixWebSocket configuration" FORCE)
+set(USE_ZLIB ON CACHE INTERNAL "ixWebSocket configuration" FORCE)
+set(IXWEBSOCKET_INSTALL OFF CACHE INTERNAL "ixWebSocket configuration" FORCE)
 set(BUILD_SHARED_LIBS OFF)
+
 include(FetchContent)
 FetchContent_Declare(ixwebsocket SYSTEM
     GIT_REPOSITORY https://github.com/machinezone/IXWebSocket

@@ -2,7 +2,7 @@
 
 #include "dbg_census/rest/rest_api_client.h"
 #include <chrono>
-#include <httplib.h>
+#include <ixwebsocket/IXHttp.h>
 #include "dbg_census/rest/retry_strategy.h"
 #include "http_client_adapter.h"
 #include "url_splitter.h"
@@ -41,13 +41,17 @@ std::optional<std::string> RestApiClient::request(const std::string& query) {
 
 std::string RestApiClient::runQuery([[maybe_unused]] const std::string& query) {
     auto client = m_http_client_adapter->getClient(query);
-    const auto path = query.substr(findPathStartIndex(query));
-    auto response = client->Get(path);
+
+    auto args = client->createRequest();
+    args->extraHeaders["Accept"] = "application/json";
+    args->compress = true;
+
+    auto response = client->get(query, args);
     if(response == nullptr) {
         throw std::runtime_error("HTTP request failed");
     }
-    if(response->status != 200) {
-        throw std::runtime_error("HTTP request failed with status code " + std::to_string(response->status));
+    if(response->statusCode != 200) {
+        throw std::runtime_error("HTTP request failed with status code " + std::to_string(response->statusCode));
     }
     const auto payload = response->body;
     if(!validatePayload(payload)) {

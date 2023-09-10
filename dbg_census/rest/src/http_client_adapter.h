@@ -6,13 +6,9 @@
 #include <memory>
 #include <string>
 
-#include <httplib.h>
+#include <ixwebsocket/IXHttpClient.h>
 
-#ifdef CPPHTTPLIB_OPENSSL_SUPPORT
-using Client = httplib::SSLClient;
-#else
-using Client = httplib::Client;
-#endif
+using Client = ix::HttpClient;
 
 namespace dbg_census::rest {
 

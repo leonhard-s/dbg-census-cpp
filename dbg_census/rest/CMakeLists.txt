@@ -27,16 +27,11 @@ target_include_directories(${PROJECT_NAME}_REST
   PRIVATE src
 )
 
-target_compile_definitions(${PROJECT_NAME}_REST
-  PRIVATE
-    $<$<BOOL:${HTTPS_SUPPORT}>:CPPHTTPLIB_OPENSSL_SUPPORT>
-)
-
 target_link_libraries(${PROJECT_NAME}_REST
   PUBLIC
     ${PROJECT_NAME}::Common
   PRIVATE
-    httplib::httplib
+    ixwebsocket::ixwebsocket
     $<$<BOOL:${HTTPS_SUPPORT}>:OpenSSL::SSL OpenSSL::Crypto>
 )
 
