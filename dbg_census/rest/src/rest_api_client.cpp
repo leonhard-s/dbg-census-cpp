@@ -7,6 +7,18 @@
 #include "http_client_adapter.h"
 #include "url_splitter.h"
 
+namespace {
+
+ix::HttpRequestArgsPtr createRequestArgs(std::shared_ptr<ix::HttpClient> client) {
+    auto args = client->createRequest();
+    args->extraHeaders["Accept"] = "application/json";
+    args->compress = true;
+    args->connectTimeout = 10;
+    return args;
+}
+
+} // anonymous namespace
+
 namespace dbg_census::rest {
 
 RestApiClient::RestApiClient()
@@ -40,13 +52,10 @@ std::optional<std::string> RestApiClient::request(const std::string& query) {
 }
 
 std::string RestApiClient::runQuery([[maybe_unused]] const std::string& query) {
-    auto client = m_http_client_adapter->getClient(query);
-
-    auto args = client->createRequest();
-    args->extraHeaders["Accept"] = "application/json";
-    args->compress = true;
-
+    auto client = m_http_client_adapter->getClient();
+    auto args = createRequestArgs(client);
     auto response = client->get(query, args);
+
     if(response == nullptr) {
         throw std::runtime_error("HTTP request failed");
     }
