@@ -41,13 +41,18 @@ if(BUILD_TESTING)
   add_subdirectory(tests)
 endif()
 
+set_property(TARGET ${PROJECT_NAME}_Stream PROPERTY
+  PUBLIC_HEADER
+    "include/dbg_census/stream/ess_client.h"
+    "include/dbg_census/stream/subscription_builder.h"
+    "${EXPORT_HEADER}"
+)
+
 include(GNUInstallDirs)
 install(TARGETS ${PROJECT_NAME}_Stream
   EXPORT ${PROJECT_NAME}Targets
   RUNTIME_DEPENDENCY_SET ${PROJECT_NAME}Deps
 )
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(FILES ${EXPORT_HEADER} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/dbg_census/stream)
 
 if(BUILD_SHARED_LIBS AND WIN32)
   install(FILES $<TARGET_PDB_FILE:${PROJECT_NAME}_Stream> OPTIONAL

@@ -52,15 +52,18 @@ if(BUILD_TESTING)
   add_subdirectory(tests)
 endif()
 
+set_property(TARGET ${PROJECT_NAME}_REST PROPERTY
+  PUBLIC_HEADER
+    include/dbg_census/rest/rest_api_client.h
+    include/dbg_census/rest/retry_strategy.h
+    ${EXPORT_HEADER}
+)
+
 include(GNUInstallDirs)
 install(TARGETS ${PROJECT_NAME}_REST
   EXPORT ${PROJECT_NAME}Targets
   RUNTIME_DEPENDENCY_SET ${PROJECT_NAME}Deps
 )
-
-
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(FILES ${EXPORT_HEADER} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/dbg_census/rest)
 
 if(BUILD_SHARED_LIBS AND WIN32)
   install(FILES $<TARGET_PDB_FILE:${PROJECT_NAME}_REST> OPTIONAL

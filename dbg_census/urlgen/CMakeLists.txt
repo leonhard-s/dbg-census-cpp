@@ -20,5 +20,9 @@ if(BUILD_TESTING)
   add_subdirectory(tests)
 endif()
 
+set_property(TARGET ${PROJECT_NAME}_UrlGen PROPERTY
+  PUBLIC_HEADER
+    "include/dbg_census/urlgen/url_builder.h"
+)
+
 install(TARGETS ${PROJECT_NAME}_UrlGen EXPORT ${PROJECT_NAME}Targets)
-install(DIRECTORY include/ DESTINATION include)
