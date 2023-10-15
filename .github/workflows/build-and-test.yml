@@ -110,11 +110,13 @@ jobs:
         with:
           name: ${{ runner.os }}-${{ matrix.compiler }}-${{ matrix.build_type }}-build
           path: ${{ env.BUILD_DIR }}
+          retention-days: 1
 
       - name: Upload install artifacts
         uses: actions/upload-artifact@v3
         with:
           name: ${{ runner.os }}-${{ matrix.compiler }}-${{ matrix.build_type }}-install
           path: ${{ env.INSTALL_DIR }}
+          retention-days: 7
 
 # TODO (leonhard-s): Packaging job
