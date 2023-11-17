@@ -42,11 +42,11 @@ public:
     std::string build() const;
 
 private:
-DISABLE_WARNING_4251
+    DISABLE_WARNING_4251;
     std::vector<std::string> m_event_names;
     std::vector<std::string> m_worlds;
     std::vector<std::string> m_characters;
-ENABLE_WARNING_4251
+    ENABLE_WARNING_4251;
     bool m_logical_and_characters_with_worlds = false;
 };
 

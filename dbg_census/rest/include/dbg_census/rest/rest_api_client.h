@@ -49,10 +49,10 @@ protected:
     virtual bool validatePayload([[maybe_unused]] const std::string& payload) const { return true; };
 
 private:
-DISABLE_WARNING_4251
+    DISABLE_WARNING_4251;
     std::unique_ptr<RetryStrategy> m_retry_strategy;
     std::unique_ptr<HttpClientAdapter> m_http_client_adapter;
-ENABLE_WARNING_4251
+    ENABLE_WARNING_4251;
 
     virtual std::string runQuery(const std::string& query);
 };

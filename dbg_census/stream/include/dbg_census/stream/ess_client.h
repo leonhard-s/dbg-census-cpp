@@ -45,9 +45,9 @@ public:
 
 private:
     class Impl;
-DISABLE_WARNING_4251
+    DISABLE_WARNING_4251;
     std::unique_ptr<Impl> m_impl;
-ENABLE_WARNING_4251
+    ENABLE_WARNING_4251;
 };
 
 } // namespace dbg_census::stream

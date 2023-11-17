@@ -43,13 +43,13 @@ public:
     std::chrono::milliseconds getRetryDelay(std::size_t num_attempts) const override;
 
 private:
-DISABLE_WARNING_4251
+    DISABLE_WARNING_4251;
     std::chrono::milliseconds m_initial_delay;
     double m_backoff_factor;
     std::chrono::milliseconds m_max_delay;
     std::size_t m_max_attempts;
     std::chrono::milliseconds m_max_total_delay;
-ENABLE_WARNING_4251
+    ENABLE_WARNING_4251;
 };
 
 } // namespace dbg_census::rest
