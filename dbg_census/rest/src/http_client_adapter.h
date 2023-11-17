@@ -23,7 +23,6 @@ public:
 
 private:
     std::shared_ptr<ix::HttpClient> m_client;
-    bool m_initialized = false;
 };
 
 } // namespace dbg_census::rest
