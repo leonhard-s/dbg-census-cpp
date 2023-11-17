@@ -104,6 +104,10 @@
                 "CMAKE_CXX_COMPILER": {
                     "type": "PATH",
                     "value": "cl.exe"
+                },
+                "CMAKE_C_COMPILER": {
+                    "type": "PATH",
+                    "value": "cl.exe"
                 }
             }
         },
@@ -116,6 +120,10 @@
             "generator": "Ninja",
             "cacheVariables": {
                 "CMAKE_CXX_COMPILER": {
+                    "type": "PATH",
+                    "value": "clang.exe"
+                },
+                "CMAKE_C_COMPILER": {
                     "type": "PATH",
                     "value": "clang.exe"
                 }

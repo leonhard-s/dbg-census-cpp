@@ -12,3 +12,6 @@ install/
 
 # vcpkg
 vcpkg_installed/
+
+# User settings
+CMakeUserPresets.json
