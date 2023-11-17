@@ -14,6 +14,10 @@ namespace dbg_census::rest {
 class DBGCENSUS_API RetryStrategy {
 public:
     virtual ~RetryStrategy() = default;
+    RetryStrategy(const RetryStrategy&) = default;
+    RetryStrategy(RetryStrategy&&) = default;
+    RetryStrategy& operator=(const RetryStrategy&) = default;
+    RetryStrategy& operator=(RetryStrategy&&) = default;
 
     virtual bool shouldRetry(int status_code, std::size_t num_attempts, std::chrono::milliseconds total_delay) const = 0;
     virtual std::chrono::milliseconds getRetryDelay(std::size_t num_attempts) const = 0;
