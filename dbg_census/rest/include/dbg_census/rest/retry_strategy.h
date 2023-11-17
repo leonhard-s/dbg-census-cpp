@@ -13,6 +13,7 @@ namespace dbg_census::rest {
 */
 class DBGCENSUS_API RetryStrategy {
 public:
+    RetryStrategy() = default;
     virtual ~RetryStrategy() = default;
     RetryStrategy(const RetryStrategy&) = default;
     RetryStrategy(RetryStrategy&&) = default;
@@ -25,18 +26,21 @@ public:
 
 class DBGCENSUS_API NoRetry : public RetryStrategy {
 public:
+    NoRetry() = default;
     bool shouldRetry(int status_code, std::size_t num_attempts, std::chrono::milliseconds total_delay) const override;
     std::chrono::milliseconds getRetryDelay(std::size_t num_attempts) const override;
 };
 
 class DBGCENSUS_API RetryOnce : public RetryStrategy {
 public:
+    RetryOnce() = default;
     bool shouldRetry(int status_code, std::size_t num_attempts, std::chrono::milliseconds total_delay) const override;
     std::chrono::milliseconds getRetryDelay(std::size_t num_attempts) const override;
 };
 
 class DBGCENSUS_API ExponentialBackoff : public RetryStrategy {
 public:
+    ExponentialBackoff() = delete;
     ExponentialBackoff(std::chrono::milliseconds initial_delay, double backoff_factor, std::chrono::milliseconds max_delay, std::size_t max_attempts, std::chrono::milliseconds max_total_delay = std::chrono::milliseconds(0));
 
     bool shouldRetry(int status_code, std::size_t num_attempts, std::chrono::milliseconds total_delay) const override;
