@@ -8,27 +8,27 @@
 
 namespace dbg_census::rest {
 
-bool NoRetry::shouldRetry(
+auto NoRetry::shouldRetry(
     [[maybe_unused]] int status_code,
     [[maybe_unused]] std::size_t num_attempts,
     [[maybe_unused]] std::chrono::milliseconds total_delay
-) const {
+) const -> bool {
     return false;
 }
 
-std::chrono::milliseconds NoRetry::getRetryDelay([[maybe_unused]] std::size_t num_attempts) const {
+auto NoRetry::getRetryDelay([[maybe_unused]] std::size_t num_attempts) const -> std::chrono::milliseconds {
     throw std::logic_error("NoRetry::getRetryDelay should never be called");
 }
 
-bool RetryOnce::shouldRetry(
+auto RetryOnce::shouldRetry(
     [[maybe_unused]] int status_code,
     std::size_t num_attempts,
     [[maybe_unused]] std::chrono::milliseconds total_delay
-) const {
+) const -> bool {
     return num_attempts == 0;
 }
 
-std::chrono::milliseconds RetryOnce::getRetryDelay([[maybe_unused]] std::size_t num_attempts) const {
+auto RetryOnce::getRetryDelay([[maybe_unused]] std::size_t num_attempts) const -> std::chrono::milliseconds {
     return std::chrono::milliseconds(0);
 }
 
@@ -46,15 +46,15 @@ ExponentialBackoff::ExponentialBackoff(
     , m_max_total_delay(max_total_delay)
 {}
 
-bool ExponentialBackoff::shouldRetry(
+auto ExponentialBackoff::shouldRetry(
     [[maybe_unused]] int status_code,
     std::size_t num_attempts,
     std::chrono::milliseconds total_delay
-) const {
+) const -> bool {
     return num_attempts < m_max_attempts && (m_max_total_delay == std::chrono::milliseconds(0) || total_delay < m_max_total_delay);
 }
 
-std::chrono::milliseconds ExponentialBackoff::getRetryDelay(std::size_t num_attempts) const {
+auto ExponentialBackoff::getRetryDelay(std::size_t num_attempts) const -> std::chrono::milliseconds {
     auto delay = m_initial_delay * std::pow(m_backoff_factor, num_attempts - 1);
     return std::min(std::chrono::duration_cast<std::chrono::milliseconds>(delay), m_max_delay);
 }

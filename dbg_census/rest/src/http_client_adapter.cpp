@@ -6,7 +6,7 @@
 
 namespace dbg_census::rest {
 
-std::shared_ptr<ix::HttpClient> HttpClientAdapter::getClient() {
+auto HttpClientAdapter::getClient() -> std::shared_ptr<ix::HttpClient> {
     if (!m_client) {
         ix::initNetSystem();
         m_client = std::make_shared<ix::HttpClient>();
