@@ -4,7 +4,9 @@ find_package(ZLIB REQUIRED GLOBAL)
 
 # Compiler options
 string(REPLACE "/analyze" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" OR (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND MSVC))
+set(CMAKE_CXX_CLANG_TIDY "")
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" OR(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND MSVC))
     add_compile_options(/w)
 else()
     add_compile_options(-w)
