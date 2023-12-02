@@ -19,10 +19,10 @@ public:
     HttpClientAdapter& operator=(const HttpClientAdapter&) = delete;
     HttpClientAdapter& operator=(HttpClientAdapter&&) noexcept = default;
 
-    std::shared_ptr<ix::HttpClient> getClient();
+    ix::HttpClient* getClient();
 
 private:
-    std::shared_ptr<ix::HttpClient> m_client;
+    std::unique_ptr<ix::HttpClient> m_client;
 };
 
 } // namespace dbg_census::rest

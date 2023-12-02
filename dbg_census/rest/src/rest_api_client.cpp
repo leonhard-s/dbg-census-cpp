@@ -11,8 +11,8 @@ namespace {
 
 constexpr int default_connect_timeout = 10;
 
-auto createRequestArgs(const std::shared_ptr<ix::HttpClient>& client, int connect_timeout = default_connect_timeout) -> ix::HttpRequestArgsPtr {
-    auto args = client->createRequest();
+auto createRequestArgs(ix::HttpClient& client, int connect_timeout = default_connect_timeout) -> ix::HttpRequestArgsPtr {
+    auto args = client.createRequest();
     args->extraHeaders["Accept"] = "application/json";
     args->compress = true;
     args->connectTimeout = connect_timeout;
@@ -55,8 +55,8 @@ auto RestApiClient::request(const std::string& query) -> std::optional<std::stri
 }
 
 auto RestApiClient::runQuery([[maybe_unused]] const std::string& query) -> std::string {
-    auto client = m_http_client_adapter->getClient();
-    auto args = createRequestArgs(client);
+    auto* client = m_http_client_adapter->getClient();
+    auto args = createRequestArgs(*client);
     auto response = client->get(query, args);
 
     if (response == nullptr) {

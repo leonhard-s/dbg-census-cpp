@@ -6,12 +6,13 @@
 
 namespace dbg_census::rest {
 
-auto HttpClientAdapter::getClient() -> std::shared_ptr<ix::HttpClient> {
+
+auto HttpClientAdapter::getClient() -> ix::HttpClient* {
     if (!m_client) {
         ix::initNetSystem();
-        m_client = std::make_shared<ix::HttpClient>();
+        m_client = std::make_unique<ix::HttpClient>();
     }
-    return m_client;
+    return m_client.get();
 }
 
 } // namespace dbg_census::rest
