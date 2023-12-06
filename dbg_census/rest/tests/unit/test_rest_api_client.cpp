@@ -7,8 +7,6 @@ namespace {
 
 class DummyRestApiClient final : public dbg_census::rest::RestApiClient {
 public:
-    std::size_t m_query_attempts = 0;
-
     using RestApiClient::RestApiClient;
     ~DummyRestApiClient() override = default;
     DummyRestApiClient(DummyRestApiClient&&) = delete;
@@ -16,7 +14,13 @@ public:
     DummyRestApiClient(const DummyRestApiClient&) = delete;
     DummyRestApiClient& operator=(const DummyRestApiClient&) = delete;
 
+    [[nodiscard]] std::size_t getQueryAttempts() const {
+        return m_query_attempts;
+    }
+
 private:
+    std::size_t m_query_attempts = 0;
+
     std::string runQuery(const std::string& query) override {
         m_query_attempts++;
         if(query == "always_fail") {
@@ -31,18 +35,18 @@ private:
 TEST(RestApiClient, QueryIsRerunOnRetry) {
     DummyRestApiClient client(std::make_unique<dbg_census::rest::RetryOnce>());
     auto result = client.request("always_fail");
-    ASSERT_EQ(client.m_query_attempts, 2);
+    ASSERT_EQ(client.getQueryAttempts(), 2);
 }
 
 TEST(RestApiClient, QueryIsNotRerunOnSuccess) {
     DummyRestApiClient client(std::make_unique<dbg_census::rest::RetryOnce>());
     auto result = client.request("always_succeed");
-    ASSERT_EQ(client.m_query_attempts, 1);
+    ASSERT_EQ(client.getQueryAttempts(), 1);
 }
 
 TEST(RestApiClient, DefaultRetryPolicyDoesNotRetry) {
     DummyRestApiClient client;
     auto result = client.request("always_fail");
     ASSERT_FALSE(result.has_value());
-    ASSERT_EQ(client.m_query_attempts, 1);
+    ASSERT_EQ(client.getQueryAttempts(), 1);
 }
