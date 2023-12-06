@@ -11,11 +11,11 @@ std::string jsonStringArrayFromVector(const std::vector<T>& vector) {
     if(vector.empty()) {
         return "[]";
     }
-    std::stringstream ss;
-    ss << R"([")";
-    std::copy(vector.begin(), vector.end() - 1, std::ostream_iterator<T>(ss, R"(",")"));
-    ss << vector.back() << R"("])";
-    return ss.str();
+    std::stringstream url;
+    url << R"([")";
+    std::copy(vector.begin(), vector.end() - 1, std::ostream_iterator<T>(url, R"(",")"));
+    url << vector.back() << R"("])";
+    return url.str();
 }
 
 } // Anonymous namespace
@@ -46,8 +46,8 @@ SubscriptionBuilder& SubscriptionBuilder::setCharacters(const std::vector<detail
     }
     else {
         m_characters.clear();
-        std::transform(character_ids.begin(), character_ids.end(), std::back_inserter(m_characters), [](auto id) {
-            return std::to_string(id);
+        std::transform(character_ids.begin(), character_ids.end(), std::back_inserter(m_characters), [](auto character_id) {
+            return std::to_string(character_id);
             });
     }
     return *this;
@@ -59,8 +59,8 @@ SubscriptionBuilder& SubscriptionBuilder::setWorlds(const std::vector<detail::wo
     }
     else {
         m_worlds.clear();
-        std::transform(world_ids.begin(), world_ids.end(), std::back_inserter(m_worlds), [](auto id) {
-            return std::to_string(id);
+        std::transform(world_ids.begin(), world_ids.end(), std::back_inserter(m_worlds), [](auto world_id) {
+            return std::to_string(world_id);
             });
     }
     return *this;
@@ -72,26 +72,26 @@ SubscriptionBuilder& SubscriptionBuilder::setLogicalAndCharactersWithWorlds(bool
 }
 
 std::string SubscriptionBuilder::build() const {
-    std::stringstream ss;
-    ss << R"({"service":"event","action":"subscribe")";
+    std::stringstream str;
+    str << R"({"service":"event","action":"subscribe")";
     // Event names
     if(!m_event_names.empty()) {
-        ss << R"(,"eventNames":)" << jsonStringArrayFromVector(m_event_names);
+        str << R"(,"eventNames":)" << jsonStringArrayFromVector(m_event_names);
     }
     // Characters
     if(!m_characters.empty()) {
-        ss << R"(,"characters":)" << jsonStringArrayFromVector(m_characters);
+        str << R"(,"characters":)" << jsonStringArrayFromVector(m_characters);
     }
     // Worlds
     if(!m_worlds.empty()) {
-        ss << R"(,"worlds":)" << jsonStringArrayFromVector(m_worlds);
+        str << R"(,"worlds":)" << jsonStringArrayFromVector(m_worlds);
     }
     // LogicalAnd
     if(m_logical_and_characters_with_worlds) {
-        ss << R"(,"logicalAndCharactersWithWorlds":true)";
+        str << R"(,"logicalAndCharactersWithWorlds":true)";
     }
-    ss << "}";
-    return ss.str();
+    str << "}";
+    return str.str();
 }
 
 } // namespace dbg_census::stream

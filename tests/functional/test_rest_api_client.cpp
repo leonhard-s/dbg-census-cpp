@@ -9,8 +9,9 @@ TEST(RunQueries, GetPs2NamespaceContents) {
     auto client = dbg_census::rest::RestApiClient();
     auto url = dbg_census::urlgen::UrlBuilder("ps2").build();
     auto result = client.request(url);
-    ASSERT_TRUE(result.has_value());
-    ASSERT_FALSE(result.value().empty());
+    if(!result.has_value()) {
+        FAIL();
+    }
     nlohmann::json json;
     ASSERT_NO_THROW(json = nlohmann::json::parse(result.value()));
     ASSERT_TRUE(json.is_object());

@@ -47,12 +47,12 @@ TEST(UrlBuilder, CanOverrideQueryVerb) {
 }
 
 TEST(UrlBuilder, CanSetNamespace) {
-    const std::string ns = "ps2";
+    const std::string game = "ps2";
     auto builder = dbg_census::urlgen::UrlBuilder();
-    builder.setNamespace(ns);
+    builder.setNamespace(game);
     builder.setCollection("bogus");
     auto url = builder.build();
-    auto pos = url.find("/" + ns + "/", 0);
+    auto pos = url.find("/" + game + "/", 0);
     EXPECT_NE(pos, std::string::npos);
 }
 

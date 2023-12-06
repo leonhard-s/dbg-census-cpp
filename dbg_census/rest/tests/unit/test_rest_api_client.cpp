@@ -10,15 +10,18 @@ public:
     std::size_t m_query_attempts = 0;
 
     using RestApiClient::RestApiClient;
-
+    ~DummyRestApiClient() override = default;
+    DummyRestApiClient(DummyRestApiClient&&) = delete;
+    DummyRestApiClient& operator=(DummyRestApiClient&&) = delete;
     DummyRestApiClient(const DummyRestApiClient&) = delete;
     DummyRestApiClient& operator=(const DummyRestApiClient&) = delete;
 
 private:
     std::string runQuery(const std::string& query) override {
         m_query_attempts++;
-        if(query == "always_fail")
+        if(query == "always_fail") {
             throw std::runtime_error("always_fail");
+        }
         return "payload_ok";
     }
 };

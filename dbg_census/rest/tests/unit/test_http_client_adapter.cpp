@@ -4,7 +4,7 @@
 
 TEST(HttpClientAdapter, OnlyOneClientCreated) {
     dbg_census::rest::HttpClientAdapter adapter;
-    const auto client1 = adapter.getClient();
-    const auto client2 = adapter.getClient();
+    auto* const client1 = adapter.getClient();
+    auto* const client2 = adapter.getClient();
     ASSERT_EQ(client1, client2);
 }

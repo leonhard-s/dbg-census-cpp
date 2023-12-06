@@ -2,7 +2,7 @@
 #include "dbg_census/urlgen/url_builder.h"
 
 TEST(ExampleQueries, GetEverquest2Collections) {
-    dbg_census::urlgen::UrlBuilder builder("eq2", "", "s:example");
+    const dbg_census::urlgen::UrlBuilder builder("eq2", "", "s:example");
     auto url = builder.build();
     EXPECT_EQ(url, "https://census.daybreakgames.com/s:example/get/eq2");
 }
