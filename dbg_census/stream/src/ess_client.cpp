@@ -21,9 +21,9 @@ public:
 
     ~Impl() = default;
     Impl(const Impl&) = delete;
-    auto operator=(const Impl&)->Impl & = delete;
+    Impl& operator=(const Impl&) = delete;
     Impl(Impl&&) = default;
-    auto operator=(Impl&&)->Impl & = default;
+    Impl& operator=(Impl&&) = default;
 
     void connect() {
         ix::initNetSystem();
@@ -31,32 +31,32 @@ public:
         m_ws_client = std::make_unique<ix::WebSocket>();
         m_ws_client->setUrl(getEssUrl());
         m_ws_client->setOnMessageCallback([this](const ix::WebSocketMessagePtr& msg) {
-            if (msg->type == ix::WebSocketMessageType::Message) {
+            if(msg->type == ix::WebSocketMessageType::Message) {
                 auto const& msg_str = msg->str;
-                if (m_on_message_callback) {
+                if(m_on_message_callback) {
                     m_on_message_callback(msg_str);
                 }
 
                 // Check for "serviceMessage" payload
-                if (msg_str.find(R"("type":"serviceMessage")") != std::string::npos) {
-                    if (m_on_event_payload_callback) {
+                if(msg_str.find(R"("type":"serviceMessage")") != std::string::npos) {
+                    if(m_on_event_payload_callback) {
                         m_on_event_payload_callback(msg_str);
                     }
                 }
 
                 // Check for "ready" payload
-                if (msg_str.find(R"("send this for help")") != std::string::npos) {
-                    if (m_on_ready) {
+                if(msg_str.find(R"("send this for help")") != std::string::npos) {
+                    if(m_on_ready) {
                         m_on_ready();
                     }
                 }
             }
-            else if (msg->type == ix::WebSocketMessageType::Open) {
-                if (m_on_connect_callback) {
+            else if(msg->type == ix::WebSocketMessageType::Open) {
+                if(m_on_connect_callback) {
                     m_on_connect_callback();
                 }
             }
-            else if (msg->type == ix::WebSocketMessageType::Error) {
+            else if(msg->type == ix::WebSocketMessageType::Error) {
                 // TODO: Error handling (payload-level)
             }
             });
@@ -64,7 +64,7 @@ public:
         try {
             m_ws_client->start();
         }
-        catch (const std::exception& e) {
+        catch(const std::exception& e) {
             // TODO: Error handling (connection-level)
             throw e;
         }
@@ -111,10 +111,10 @@ private:
     std::function<void(const std::string&)> m_on_message_callback;
     std::function<void(const std::string&)> m_on_event_payload_callback;
 
-    [[nodiscard]] auto getEssUrl() const -> std::string {
-        std::stringstream ss;
-        ss << m_ess_endpoint << "?environment=" << m_ess_environment << "&service-id=" << m_ess_service_id;
-        return ss.str();
+    [[nodiscard]] std::string getEssUrl() const {
+        std::stringstream url;
+        url << m_ess_endpoint << "?environment=" << m_ess_environment << "&service-id=" << m_ess_service_id;
+        return url.str();
     }
 };
 

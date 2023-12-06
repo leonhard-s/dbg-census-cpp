@@ -17,7 +17,7 @@ TEST(EssClient, ConnectToDefaultEndpoint) {
     client.connect();
     while(std::chrono::steady_clock::now() < start + timeout) {
         std::this_thread::sleep_for(100ms);
-        if (client_ready) {
+        if(client_ready) {
             break;
         }
     }

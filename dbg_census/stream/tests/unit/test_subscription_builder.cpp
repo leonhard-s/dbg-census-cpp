@@ -12,7 +12,7 @@ TEST(SubscriptionBuilder, PlayerLogging) {
 TEST(SubscriptionBuilder, LogicalAnd) {
     dbg_census::stream::SubscriptionBuilder builder("Death");
     builder.setCharacters({}, true);
-    builder.setWorlds({1});
+    builder.setWorlds({ 1 });
     builder.setLogicalAndCharactersWithWorlds(true);
     EXPECT_EQ(builder.build(),
         R"({"service":"event","action":"subscribe","eventNames":["Death"],"characters":["all"],"worlds":["1"],"logicalAndCharactersWithWorlds":true})");

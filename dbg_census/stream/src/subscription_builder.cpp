@@ -7,8 +7,8 @@
 namespace {
 
 template<typename T>
-auto jsonStringArrayFromVector(const std::vector<T>& vector) -> std::string {
-    if (vector.empty()) {
+std::string jsonStringArrayFromVector(const std::vector<T>& vector) {
+    if(vector.empty()) {
         return "[]";
     }
     std::stringstream ss;
@@ -30,18 +30,18 @@ SubscriptionBuilder::SubscriptionBuilder(const std::vector<std::string>& event_n
     : m_event_names{ event_names }
 {}
 
-auto SubscriptionBuilder::setEventName(const std::string& event_name) -> SubscriptionBuilder& {
+SubscriptionBuilder& SubscriptionBuilder::setEventName(const std::string& event_name) {
     m_event_names = { event_name };
     return *this;
 }
 
-auto SubscriptionBuilder::setEventNames(const std::vector<std::string>& event_names) -> SubscriptionBuilder& {
+SubscriptionBuilder& SubscriptionBuilder::setEventNames(const std::vector<std::string>& event_names) {
     m_event_names = event_names;
     return *this;
 }
 
-auto SubscriptionBuilder::setCharacters(const std::vector<detail::character_id_t>& character_ids, bool all) -> SubscriptionBuilder& {
-    if (all) {
+SubscriptionBuilder& SubscriptionBuilder::setCharacters(const std::vector<detail::character_id_t>& character_ids, bool all) {
+    if(all) {
         m_characters = { ALL_CHARACTERS };
     }
     else {
@@ -53,8 +53,8 @@ auto SubscriptionBuilder::setCharacters(const std::vector<detail::character_id_t
     return *this;
 }
 
-auto SubscriptionBuilder::setWorlds(const std::vector<detail::world_id_t>& world_ids, bool all) -> SubscriptionBuilder& {
-    if (all) {
+SubscriptionBuilder& SubscriptionBuilder::setWorlds(const std::vector<detail::world_id_t>& world_ids, bool all) {
+    if(all) {
         m_worlds = { ALL_WORLDS };
     }
     else {
@@ -66,28 +66,28 @@ auto SubscriptionBuilder::setWorlds(const std::vector<detail::world_id_t>& world
     return *this;
 }
 
-auto SubscriptionBuilder::setLogicalAndCharactersWithWorlds(bool logical_and) -> SubscriptionBuilder& {
+SubscriptionBuilder& SubscriptionBuilder::setLogicalAndCharactersWithWorlds(bool logical_and) {
     m_logical_and_characters_with_worlds = logical_and;
     return *this;
 }
 
-auto SubscriptionBuilder::build() const -> std::string {
+std::string SubscriptionBuilder::build() const {
     std::stringstream ss;
     ss << R"({"service":"event","action":"subscribe")";
     // Event names
-    if (!m_event_names.empty()) {
+    if(!m_event_names.empty()) {
         ss << R"(,"eventNames":)" << jsonStringArrayFromVector(m_event_names);
     }
     // Characters
-    if (!m_characters.empty()) {
+    if(!m_characters.empty()) {
         ss << R"(,"characters":)" << jsonStringArrayFromVector(m_characters);
     }
     // Worlds
-    if (!m_worlds.empty()) {
+    if(!m_worlds.empty()) {
         ss << R"(,"worlds":)" << jsonStringArrayFromVector(m_worlds);
     }
     // LogicalAnd
-    if (m_logical_and_characters_with_worlds) {
+    if(m_logical_and_characters_with_worlds) {
         ss << R"(,"logicalAndCharactersWithWorlds":true)";
     }
     ss << "}";
