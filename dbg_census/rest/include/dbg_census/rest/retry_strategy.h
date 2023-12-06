@@ -4,6 +4,7 @@
 
 #include <chrono>
 #include "dbg_census/rest/export.h"
+#include "dbg_census/rest/http_status.h"
 #include "dbg_census/common/macros.h"
 
 namespace dbg_census::rest {
@@ -20,21 +21,21 @@ public:
     RetryStrategy& operator=(const RetryStrategy&) = default;
     RetryStrategy& operator=(RetryStrategy&&) = default;
 
-    virtual bool shouldRetry(int status_code, std::size_t num_attempts, std::chrono::milliseconds total_delay) const = 0;
+    virtual bool shouldRetry(HttpStatusCode status_code, std::size_t num_attempts, std::chrono::milliseconds total_delay) const = 0;
     virtual std::chrono::milliseconds getRetryDelay(std::size_t num_attempts) const = 0;
 };
 
 class DBGCENSUS_API NoRetry : public RetryStrategy {
 public:
     NoRetry() = default;
-    bool shouldRetry(int status_code, std::size_t num_attempts, std::chrono::milliseconds total_delay) const override;
+    bool shouldRetry(HttpStatusCode status_code, std::size_t num_attempts, std::chrono::milliseconds total_delay) const override;
     std::chrono::milliseconds getRetryDelay(std::size_t num_attempts) const override;
 };
 
 class DBGCENSUS_API RetryOnce : public RetryStrategy {
 public:
     RetryOnce() = default;
-    bool shouldRetry(int status_code, std::size_t num_attempts, std::chrono::milliseconds total_delay) const override;
+    bool shouldRetry(HttpStatusCode status_code, std::size_t num_attempts, std::chrono::milliseconds total_delay) const override;
     std::chrono::milliseconds getRetryDelay(std::size_t num_attempts) const override;
 };
 
@@ -43,7 +44,7 @@ public:
     ExponentialBackoff() = delete;
     ExponentialBackoff(std::chrono::milliseconds initial_delay, double backoff_factor, std::chrono::milliseconds max_delay, std::size_t max_attempts, std::chrono::milliseconds max_total_delay = std::chrono::milliseconds(0));
 
-    bool shouldRetry(int status_code, std::size_t num_attempts, std::chrono::milliseconds total_delay) const override;
+    bool shouldRetry(HttpStatusCode status_code, std::size_t num_attempts, std::chrono::milliseconds total_delay) const override;
     std::chrono::milliseconds getRetryDelay(std::size_t num_attempts) const override;
 
 private:

@@ -1,6 +1,7 @@
 // Copyright 2023 Leonhard S.
 
 #include "dbg_census/rest/retry_strategy.h"
+#include "dbg_census/rest/http_status.h"
 
 #include <algorithm>
 #include <cmath>
@@ -9,7 +10,7 @@
 namespace dbg_census::rest {
 
 bool NoRetry::shouldRetry(
-    [[maybe_unused]] int status_code,
+    [[maybe_unused]] HttpStatusCode status_code,
     [[maybe_unused]] std::size_t num_attempts,
     [[maybe_unused]] std::chrono::milliseconds total_delay
 ) const {
@@ -21,7 +22,7 @@ std::chrono::milliseconds NoRetry::getRetryDelay([[maybe_unused]] std::size_t nu
 }
 
 bool RetryOnce::shouldRetry(
-    [[maybe_unused]] int status_code,
+    [[maybe_unused]] HttpStatusCode status_code,
     std::size_t num_attempts,
     [[maybe_unused]] std::chrono::milliseconds total_delay
 ) const {
@@ -47,7 +48,7 @@ ExponentialBackoff::ExponentialBackoff(
 {}
 
 bool ExponentialBackoff::shouldRetry(
-    [[maybe_unused]] int status_code,
+    [[maybe_unused]] HttpStatusCode status_code,
     std::size_t num_attempts,
     std::chrono::milliseconds total_delay
 ) const {

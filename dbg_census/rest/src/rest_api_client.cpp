@@ -1,5 +1,6 @@
 // Copyright 2023 Leonhard S.
 
+#include "dbg_census/rest/http_status.h"
 #include "dbg_census/rest/rest_api_client.h"
 #include <chrono>
 #include <ixwebsocket/IXHttp.h>
@@ -45,8 +46,7 @@ std::optional<std::string> RestApiClient::request(const std::string& query) {
             return runQuery(query);
         }
         catch([[maybe_unused]] const std::exception& e) {
-            constexpr int http_status_retry = 600; // Non-standard HTTP status code
-            if(!m_retry_strategy->shouldRetry(http_status_retry, attempts++, time_taken)) {
+            if(!m_retry_strategy->shouldRetry(HttpStatusCode::RETRY, attempts++, time_taken)) {
                 return std::nullopt;
             }
             std::this_thread::sleep_for(m_retry_strategy->getRetryDelay(attempts));
