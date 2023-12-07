@@ -36,6 +36,7 @@ target_link_libraries(${PROJECT_NAME}_REST
 )
 
 target_sources(${PROJECT_NAME}_REST PRIVATE
+    "include/dbg_census/rest/http_status.h"
     "include/dbg_census/rest/rest_api_client.h"
     "include/dbg_census/rest/retry_strategy.h"
     "src/http_client_adapter.cpp"
@@ -54,6 +55,7 @@ endif()
 
 set_property(TARGET ${PROJECT_NAME}_REST PROPERTY
   PUBLIC_HEADER
+    include/dbg_census/rest/http_status.h
     include/dbg_census/rest/rest_api_client.h
     include/dbg_census/rest/retry_strategy.h
     ${EXPORT_HEADER}
