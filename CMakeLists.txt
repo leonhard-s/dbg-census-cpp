@@ -76,6 +76,9 @@ install(FILES
 )
 install(FILES "LICENSE" "README.md" DESTINATION "share")
 
+string(APPEND CMAKE_INSTALL_BINDIR /$<CONFIG>)
+string(APPEND CMAKE_INSTALL_LIBDIR /$<CONFIG>)
+
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(RUNTIME_DEPENDENCY_DIR ${CMAKE_INSTALL_BINDIR})
 else()
@@ -83,9 +86,12 @@ else()
 endif()
 
 install(RUNTIME_DEPENDENCY_SET ${PROJECT_NAME}Deps
-  PRE_EXCLUDE_REGEXES [[api-ms-win-.*]] [[ext-ms-.*]] [[kernel32\.dll]] [[clang_rt.asan.*]]
-  POST_EXCLUDE_REGEXES [[.*/system32/.*\.dll]] [[.*/dbg_census/.+/.+\.dll]]
+  PRE_EXCLUDE_REGEXES
+    [[api-ms-win-.*]] [[ext-ms-.*]] [[kernel32\.dll]] [[clang_rt.asan.*]]
+  POST_EXCLUDE_REGEXES
+    [[.*/system32/.*\.dll]] [[bcrypt\.dll]] [[bcryptprimitives\.dll]]
+    [[advapi32\.dll]] [[crypt32\.dll]] [[msvcp140d?\.dll]] [[shlwapi\.dll]]
+    [[ucrtbased?\.dll]] [[user32\.dll]] [[vcruntime140(_1)?d?\.dll]]
+    [[ws2_32\.dll]] [[wsock32\.dll]]
   DESTINATION ${RUNTIME_DEPENDENCY_DIR}
 )
-
-# TODO (@leonhard-s): Support packaging
