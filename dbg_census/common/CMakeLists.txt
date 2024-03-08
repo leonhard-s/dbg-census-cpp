@@ -17,6 +17,7 @@ set_property(TARGET ${PROJECT_NAME}_Common PROPERTY
 )
 
 include(GNUInstallDirs)
+string(APPEND CMAKE_INSTALL_INCLUDEDIR /dbg_census/common)
 install(TARGETS ${PROJECT_NAME}_Common
   EXPORT ${PROJECT_NAME}Targets
 )

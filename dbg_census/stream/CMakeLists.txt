@@ -49,6 +49,7 @@ set_property(TARGET ${PROJECT_NAME}_Stream PROPERTY
 )
 
 include(GNUInstallDirs)
+string(APPEND CMAKE_INSTALL_INCLUDEDIR /dbg_census/stream)
 string(APPEND CMAKE_INSTALL_BINDIR /$<CONFIG>)
 string(APPEND CMAKE_INSTALL_LIBDIR /$<CONFIG>)
 install(TARGETS ${PROJECT_NAME}_Stream

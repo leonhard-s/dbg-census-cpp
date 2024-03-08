@@ -25,4 +25,5 @@ set_property(TARGET ${PROJECT_NAME}_UrlGen PROPERTY
     "include/dbg_census/urlgen/url_builder.h"
 )
 
+string(APPEND CMAKE_INSTALL_INCLUDEDIR /dbg_census/urlgen)
 install(TARGETS ${PROJECT_NAME}_UrlGen EXPORT ${PROJECT_NAME}Targets)
