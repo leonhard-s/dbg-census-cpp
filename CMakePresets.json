@@ -246,6 +246,19 @@
                 "linux-clang",
                 "release"
             ]
+        },
+        {
+            "name": "windows-clang-tidy",
+            "displayName": "Clang (Debug with Clang-Tidy)",
+            "inherits": [
+                "windows-clang-debug"
+            ],
+            "cacheVariables": {
+                "CMAKE_CXX_CLANG_TIDY": {
+                    "type": "string",
+                    "value": "clang-tidy;--checks=cppcoreguidelines-*,clang-analyzer-*,google-*,misc-*,modernize-*,performance-*,readability-*,-modernize-use-trailing-return-type,-google-readability-todo,-readability-identifier-length"
+                }
+            }
         }
     ]
 }
