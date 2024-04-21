@@ -1,9 +1,10 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.20...3.29)
 project(DbgCensus VERSION 0.2.0 LANGUAGES CXX)
 
 # Project-wide configuration
 option(BUILD_TESTING "Build tests" ON)
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
+option(${PROJECT_NAME}_INSTALL "Export built targets" ON)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -52,46 +53,49 @@ if(BUILD_TESTING)
 endif()
 
 # Installation
-include(GNUInstallDirs)
-install(EXPORT ${PROJECT_NAME}Targets
-    NAMESPACE "${PROJECT_NAME}::"
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
-)
-include(CMakePackageConfigHelpers)
-configure_package_config_file(
-    "cmake/${PROJECT_NAME}Config.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
-)
-write_basic_package_version_file(
-    "${PROJECT_NAME}ConfigVersion.cmake"
-    VERSION ${PROJECT_VERSION}
-    # TODO (leonhard-s): Use "SameMajorVersion" once we have a stable API
-    COMPATIBILITY "SameMinorVersion"
-)
-install(FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
-)
-install(FILES "LICENSE" "README.md" DESTINATION "share")
+if(${PROJECT_NAME}_INSTALL)
+    include(GNUInstallDirs)
+    install(EXPORT ${PROJECT_NAME}Targets
+        NAMESPACE "${PROJECT_NAME}::"
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+    )
+    include(CMakePackageConfigHelpers)
+    configure_package_config_file(
+        "cmake/${PROJECT_NAME}Config.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+        INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+    )
+    write_basic_package_version_file(
+        "${PROJECT_NAME}ConfigVersion.cmake"
+        VERSION ${PROJECT_VERSION}
 
-string(APPEND CMAKE_INSTALL_BINDIR /$<CONFIG>)
-string(APPEND CMAKE_INSTALL_LIBDIR /$<CONFIG>)
+        # TODO (leonhard-s): Use "SameMajorVersion" once we have a stable API
+        COMPATIBILITY "SameMinorVersion"
+    )
+    install(FILES
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+    )
+    install(FILES "LICENSE" "README.md" DESTINATION "share")
 
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    set(RUNTIME_DEPENDENCY_DIR ${CMAKE_INSTALL_BINDIR})
-else()
-    set(RUNTIME_DEPENDENCY_DIR ${CMAKE_INSTALL_LIBDIR})
+    string(APPEND CMAKE_INSTALL_BINDIR /$<CONFIG>)
+    string(APPEND CMAKE_INSTALL_LIBDIR /$<CONFIG>)
+
+    if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+        set(RUNTIME_DEPENDENCY_DIR ${CMAKE_INSTALL_BINDIR})
+    else()
+        set(RUNTIME_DEPENDENCY_DIR ${CMAKE_INSTALL_LIBDIR})
+    endif()
+
+    install(RUNTIME_DEPENDENCY_SET ${PROJECT_NAME}Deps
+        PRE_EXCLUDE_REGEXES
+        [[api-ms-win-.*]] [[ext-ms-.*]] [[kernel32\.dll]] [[clang_rt\.asan.*]]
+        POST_EXCLUDE_REGEXES
+        [[.*/system32/.*\.dll]] [[bcrypt\.dll]] [[bcryptprimitives\.dll]]
+        [[advapi32\.dll]] [[crypt32\.dll]] [[msvcp140d?\.dll]] [[shlwapi\.dll]]
+        [[ucrtbased?\.dll]] [[user32\.dll]] [[vcruntime140(_1)?d?\.dll]]
+        [[ws2_32\.dll]] [[wsock32\.dll]]
+        DESTINATION ${RUNTIME_DEPENDENCY_DIR}
+    )
 endif()
-
-install(RUNTIME_DEPENDENCY_SET ${PROJECT_NAME}Deps
-  PRE_EXCLUDE_REGEXES
-    [[api-ms-win-.*]] [[ext-ms-.*]] [[kernel32\.dll]] [[clang_rt.asan.*]]
-  POST_EXCLUDE_REGEXES
-    [[.*/system32/.*\.dll]] [[bcrypt\.dll]] [[bcryptprimitives\.dll]]
-    [[advapi32\.dll]] [[crypt32\.dll]] [[msvcp140d?\.dll]] [[shlwapi\.dll]]
-    [[ucrtbased?\.dll]] [[user32\.dll]] [[vcruntime140(_1)?d?\.dll]]
-    [[ws2_32\.dll]] [[wsock32\.dll]]
-  DESTINATION ${RUNTIME_DEPENDENCY_DIR}
-)
