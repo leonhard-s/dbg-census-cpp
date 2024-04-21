@@ -1,10 +1,19 @@
 // Copyright 2023 Leonhard S.
 
 #include "dbg_census/stream/ess_client.h"
+
+#include <functional>
+#include <memory>
 #include <sstream>
+#include <stdexcept>
+#include <string>
+#include <string_view>
+#include <utility>
+
 #include <ixwebsocket/IXNetSystem.h>
 #include <ixwebsocket/IXWebSocket.h>
-#include <ixwebsocket/IXUserAgent.h>
+#include <ixwebsocket/IXWebSocketMessage.h>
+#include <ixwebsocket/IXWebSocketMessageType.h>
 
 namespace dbg_census::stream {
 

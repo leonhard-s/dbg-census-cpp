@@ -2,6 +2,10 @@
 
 #include "url_splitter.h"
 
+#include <cstddef>
+#include <string>
+#include <string_view>
+
 namespace dbg_census::rest {
 
 std::size_t findHostStartIndex(const std::string_view& url) {

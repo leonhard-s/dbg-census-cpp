@@ -4,7 +4,9 @@
 #include "dbg_census/rest/http_status.h"
 
 #include <algorithm>
+#include <cstddef>
 #include <cmath>
+#include <chrono>
 #include <stdexcept>
 
 namespace dbg_census::rest {

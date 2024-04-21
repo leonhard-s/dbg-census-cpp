@@ -1,12 +1,23 @@
 // Copyright 2023 Leonhard S.
 
 #include "dbg_census/rest/http_status.h"
-#include "dbg_census/rest/rest_api_client.h"
+
 #include <chrono>
+#include <cstddef>
+#include <exception>
+#include <memory>
+#include <optional>
+#include <stdexcept>
+#include <string>
+#include <thread>
+#include <utility>
+
 #include <ixwebsocket/IXHttp.h>
+#include <ixwebsocket/IXHttpClient.h>
+
+#include "dbg_census/rest/rest_api_client.h"
 #include "dbg_census/rest/retry_strategy.h"
 #include "http_client_adapter.h"
-#include "url_splitter.h"
 
 namespace {
 

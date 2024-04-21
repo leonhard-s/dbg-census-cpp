@@ -1,8 +1,12 @@
 // Copyright 2023 Leonhard S.
 
 #include "dbg_census/stream/subscription_builder.h"
+
 #include <algorithm>
+#include <iterator>
 #include <sstream>
+#include <string>
+#include <vector>
 
 namespace {
 

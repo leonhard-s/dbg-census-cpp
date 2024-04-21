@@ -1,8 +1,11 @@
 // Copyright 2023 Leonhard S.
 
 #include "http_client_adapter.h"
+
+#include <memory>
+
+#include <ixwebsocket/IXHttpClient.h>
 #include <ixwebsocket/IXNetSystem.h>
-#include "url_splitter.h"
 
 namespace dbg_census::rest {
 
