@@ -46,7 +46,7 @@ protected:
      * @param payload The payload to validate.
      * @return true if the payload is valid, false otherwise.
     */
-    virtual bool validatePayload([[maybe_unused]] const std::string& payload) const { return true; };
+    virtual bool validatePayload([[maybe_unused]] const std::string& payload) const { return true; }
 
 private:
     DISABLE_WARNING_4251;

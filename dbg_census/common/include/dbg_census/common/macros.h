@@ -11,9 +11,9 @@
 // ...
 // private:
 //     class FooImpl;
-// DISABLE_WARNING_4251
+// DISABLE_WARNING_4251;
 //     std::unique_ptr<class FooImpl> m_impl;
-// ENABLE_WARNING_4251
+// ENABLE_WARNING_4251;
 // };
 #ifdef _WIN32
 #  define DISABLE_WARNING_4251 __pragma(warning(push)) __pragma(warning(disable: 4251)) \
