@@ -16,15 +16,33 @@
 #include <ixwebsocket/IXWebSocketMessageType.h>
 
 namespace dbg_census::stream {
+namespace detail {
+
+std::string_view defaultEssEndpoint() {
+    static const auto* const value = "wss://push.planetside2.com/streaming";
+    return value;
+}
+
+std::string_view defaultEssEnvironment() {
+    static const auto* const value = "ps2";
+    return value;
+}
+
+std::string_view defaultEssServiceId() {
+    static const auto* const value = "s:example";
+    return value;
+}
+
+} // namespace detail
 
 class EssClient::Impl {
 public:
-    Impl(std::string ess_service_id,
-        std::string ess_environment,
-        std::string ess_endpoint)
-        : m_ess_service_id{ std::move(ess_service_id) }
-        , m_ess_environment{ std::move(ess_environment) }
-        , m_ess_endpoint{ std::move(ess_endpoint) }
+    Impl(std::string_view ess_service_id,
+        std::string_view ess_environment,
+        std::string_view ess_endpoint)
+        : m_ess_service_id{ ess_service_id }
+        , m_ess_environment{ ess_environment }
+        , m_ess_endpoint{ ess_endpoint }
         , m_ws_client{ nullptr }
     {}
 
@@ -128,8 +146,8 @@ private:
 };
 
 EssClient::EssClient(std::string_view ess_service_id,
-    const std::string& ess_environment,
-    const std::string& ess_endpoint)
+    std::string_view ess_environment,
+    std::string_view ess_endpoint)
     : m_impl{ std::make_unique<Impl>(ess_service_id, ess_environment, ess_endpoint) }
 {}
 

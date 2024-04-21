@@ -5,6 +5,7 @@
 #include <functional>
 #include <memory>
 #include <string>
+#include <string_view>
 
 #include "dbg_census/stream/export.h"
 #include "dbg_census/common/macros.h"
@@ -13,18 +14,20 @@ namespace dbg_census::stream {
 
 namespace detail {
 
-static const std::string default_ess_endpoint = "wss://push.planetside2.com/streaming";
-static const std::string default_ess_environment = "ps2";
-static const std::string default_ess_service_id = "s:example";
+DBGCENSUS_API std::string_view defaultEssEndpoint();
+
+DBGCENSUS_API std::string_view defaultEssEnvironment();
+
+DBGCENSUS_API std::string_view defaultEssServiceId();
 
 } // namespace detail
 
 class DBGCENSUS_API EssClient {
 public:
     explicit EssClient(
-        const std::string& ess_service_id = detail::default_ess_service_id,
-        const std::string& ess_environment = detail::default_ess_environment,
-        const std::string& ess_endpoint = detail::default_ess_endpoint
+        std::string_view ess_service_id = detail::defaultEssServiceId(),
+        std::string_view ess_environment = detail::defaultEssEnvironment(),
+        std::string_view ess_endpoint = detail::defaultEssEndpoint()
     );
     virtual ~EssClient();
     EssClient(const EssClient&) = delete;
