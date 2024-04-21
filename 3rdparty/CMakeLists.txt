@@ -24,6 +24,6 @@ set(BUILD_SHARED_LIBS OFF)
 include(FetchContent)
 FetchContent_Declare(ixwebsocket SYSTEM
     GIT_REPOSITORY https://github.com/machinezone/IXWebSocket
-    GIT_TAG "v11.4.4"
+    GIT_TAG "v11.4.5"
 )
 FetchContent_MakeAvailable(ixwebsocket)
