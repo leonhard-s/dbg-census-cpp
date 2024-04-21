@@ -11,7 +11,7 @@ namespace dbg_census::rest {
 
 
 ix::HttpClient* HttpClientAdapter::getClient() {
-    if(!m_client) {
+    if (!m_client) {
         ix::initNetSystem();
         m_client = std::make_unique<ix::HttpClient>();
     }

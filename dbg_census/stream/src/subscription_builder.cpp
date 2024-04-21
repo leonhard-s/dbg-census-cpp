@@ -12,7 +12,7 @@ namespace {
 
 template<typename T>
 std::string jsonStringArrayFromVector(const std::vector<T>& vector) {
-    if(vector.empty()) {
+    if (vector.empty()) {
         return "[]";
     }
     std::stringstream url;
@@ -45,7 +45,7 @@ SubscriptionBuilder& SubscriptionBuilder::setEventNames(const std::vector<std::s
 }
 
 SubscriptionBuilder& SubscriptionBuilder::setCharacters(const std::vector<detail::character_id_t>& character_ids, bool all) {
-    if(all) {
+    if (all) {
         m_characters = { ALL_CHARACTERS };
     }
     else {
@@ -58,7 +58,7 @@ SubscriptionBuilder& SubscriptionBuilder::setCharacters(const std::vector<detail
 }
 
 SubscriptionBuilder& SubscriptionBuilder::setWorlds(const std::vector<detail::world_id_t>& world_ids, bool all) {
-    if(all) {
+    if (all) {
         m_worlds = { ALL_WORLDS };
     }
     else {
@@ -79,19 +79,19 @@ std::string SubscriptionBuilder::build() const {
     std::stringstream str;
     str << R"({"service":"event","action":"subscribe")";
     // Event names
-    if(!m_event_names.empty()) {
+    if (!m_event_names.empty()) {
         str << R"(,"eventNames":)" << jsonStringArrayFromVector(m_event_names);
     }
     // Characters
-    if(!m_characters.empty()) {
+    if (!m_characters.empty()) {
         str << R"(,"characters":)" << jsonStringArrayFromVector(m_characters);
     }
     // Worlds
-    if(!m_worlds.empty()) {
+    if (!m_worlds.empty()) {
         str << R"(,"worlds":)" << jsonStringArrayFromVector(m_worlds);
     }
     // LogicalAnd
-    if(m_logical_and_characters_with_worlds) {
+    if (m_logical_and_characters_with_worlds) {
         str << R"(,"logicalAndCharactersWithWorlds":true)";
     }
     str << "}";

@@ -40,32 +40,32 @@ public:
         m_ws_client = std::make_unique<ix::WebSocket>();
         m_ws_client->setUrl(getEssUrl());
         m_ws_client->setOnMessageCallback([this](const ix::WebSocketMessagePtr& msg) {
-            if(msg->type == ix::WebSocketMessageType::Message) {
+            if (msg->type == ix::WebSocketMessageType::Message) {
                 auto const& msg_str = msg->str;
-                if(m_on_message_callback) {
+                if (m_on_message_callback) {
                     m_on_message_callback(msg_str);
                 }
 
                 // Check for "serviceMessage" payload
-                if(msg_str.find(R"("type":"serviceMessage")") != std::string::npos) {
-                    if(m_on_event_payload_callback) {
+                if (msg_str.find(R"("type":"serviceMessage")") != std::string::npos) {
+                    if (m_on_event_payload_callback) {
                         m_on_event_payload_callback(msg_str);
                     }
                 }
 
                 // Check for "ready" payload
-                if(msg_str.find(R"("send this for help")") != std::string::npos) {
-                    if(m_on_ready) {
+                if (msg_str.find(R"("send this for help")") != std::string::npos) {
+                    if (m_on_ready) {
                         m_on_ready();
                     }
                 }
             }
-            else if(msg->type == ix::WebSocketMessageType::Open) {
-                if(m_on_connect_callback) {
+            else if (msg->type == ix::WebSocketMessageType::Open) {
+                if (m_on_connect_callback) {
                     m_on_connect_callback();
                 }
             }
-            else if(msg->type == ix::WebSocketMessageType::Error) {
+            else if (msg->type == ix::WebSocketMessageType::Error) {
                 // TODO: Error handling (payload-level)
             }
             });
@@ -73,7 +73,7 @@ public:
         try {
             m_ws_client->start();
         }
-        catch(const std::exception& e) {
+        catch (const std::exception& e) {
             // TODO: Error handling (connection-level)
             throw e;
         }
@@ -127,7 +127,7 @@ private:
     }
 };
 
-EssClient::EssClient(const std::string& ess_service_id,
+EssClient::EssClient(std::string_view ess_service_id,
     const std::string& ess_environment,
     const std::string& ess_endpoint)
     : m_impl{ std::make_unique<Impl>(ess_service_id, ess_environment, ess_endpoint) }
